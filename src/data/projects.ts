@@ -119,42 +119,42 @@ export const projects: readonly Project[] = [
 
         screenshots: [
             {
-                src: "/projects/disbursement-api/01-login-auth.webp",
+                src: "/projects/disbursement-api/01-login-auth.png",
                 alt: "Postman login request returning a JWT token for the Disbursement API.",
                 caption: "JWT authentication returning an authenticated admin user and access token.",
                 width: 1100,
                 height: 653,
             },
             {
-                src: "/projects/disbursement-api/02-create-disbursement.webp",
+                src: "/projects/disbursement-api/02-create-disbursement.png",
                 alt: "Postman create disbursement request returning a PENDING disbursement.",
                 caption: "Creating a disbursement and initializing its lifecycle with PENDING status.",
                 width: 1100,
                 height: 652,
             },
             {
-                src: "/projects/disbursement-api/03-disbursement-list.webp",
+                src: "/projects/disbursement-api/03-disbursement-list.png",
                 alt: "Postman disbursement list endpoint showing paginated results.",
                 caption: "Paginated disbursement listing with response metadata.",
                 width: 1100,
                 height: 651,
             },
             {
-                src: "/projects/disbursement-api/04-approval.webp",
+                src: "/projects/disbursement-api/04-approval.png",
                 alt: "Postman approval request changing a pending disbursement to APPROVED.",
                 caption: "Authorized approval workflow transitioning PENDING to APPROVED.",
                 width: 1100,
                 height: 654,
             },
             {
-                src: "/projects/disbursement-api/05-rejection.webp",
+                src: "/projects/disbursement-api/05-rejection.png",
                 alt: "Postman rejection request changing a pending disbursement to REJECTED.",
                 caption: "Rejection workflow with a recorded rejection reason.",
                 width: 1100,
                 height: 649,
             },
             {
-                src: "/projects/disbursement-api/06-business-rule-409.webp",
+                src: "/projects/disbursement-api/06-business-rule-409.png",
                 alt: "Postman response returning 409 Conflict when processing an already processed disbursement.",
                 caption: "Business-rule enforcement preventing an already processed disbursement from being processed again.",
                 width: 1100,
