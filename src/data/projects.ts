@@ -142,18 +142,24 @@ export const projects: readonly Project[] = [
                 alt: "Device Monitoring System dashboard showing registered devices and their current status.",
                 caption:
                     "Device management dashboard with device metadata, status, and last-seen information.",
+                width: 1264,
+                height: 438,
             },
             {
                 src: "/projects/device-monitoring-system/02-realtime-online.png",
                 alt: "Device Monitoring System dashboard showing online and offline device counts with realtime notifications.",
                 caption:
                     "Realtime status updates reflected in the dashboard with online-device notifications.",
+                width: 1915,
+                height: 910,
             },
             {
                 src: "/projects/device-monitoring-system/03-realtime-offline.png",
                 alt: "Device Monitoring System dashboard showing devices detected as offline with realtime notifications.",
                 caption:
                     "Offline detection state after devices stop reporting heartbeats.",
+                width: 1915,
+                height: 907,
             },
         ],
 
