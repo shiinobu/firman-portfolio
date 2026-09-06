@@ -3,23 +3,20 @@ import Section from "@/components/layout/Section";
 
 export default function Experience() {
     return (
-        <Section
-            id="experience"
-            className="bg-background"
-        >
-            {/* existing Experience content */}
+        <Section id="experience" className="bg-background">
             <div className="mb-16 max-w-[720px]">
                 <p className="font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
-                    Experience
+                    Professional Experience
                 </p>
 
                 <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                    Engineering experience and hands-on work.
+                    Experience across real-world software systems.
                 </h2>
 
                 <p className="mt-5 text-base leading-[1.7] text-justify text-foreground-secondary md:text-lg">
-                    Experience building backend systems, APIs, and business-driven
-                    applications across different technical environments and domains.
+                    Professional experience spanning web application development,
+                    backend functionality, database management, maintenance,
+                    debugging, and business-driven software requirements.
                 </p>
             </div>
 
@@ -59,14 +56,15 @@ export default function Experience() {
                                             className="mt-[0.65em] size-1.5 shrink-0 rounded-full bg-primary"
                                         />
 
-                                        <span className="text-justify">
-                                            {responsibility}
-                                        </span>
+                                        <span>{responsibility}</span>
                                     </li>
                                 ))}
                             </ul>
 
-                            <ul className="mt-6 flex flex-wrap gap-2">
+                            <ul
+                                className="mt-6 flex flex-wrap gap-2"
+                                aria-label={`${experience.role} technologies`}
+                            >
                                 {experience.technologies.map((technology) => (
                                     <li
                                         key={technology}
