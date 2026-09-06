@@ -62,7 +62,10 @@ export default function MobileNav() {
       </button>
 
       {isOpen && (
-        <div className="absolute inset-x-0 top-full border-b border-border bg-background px-5 py-5">
+        <div
+          id="mobile-navigation"
+          className="absolute inset-x-0 top-full border-b border-border bg-background px-5 py-5"
+        >
           <nav aria-label="Mobile navigation">
             <ul className="flex flex-col gap-1">
               {navigationItems.map((item) => (
