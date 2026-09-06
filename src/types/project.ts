@@ -2,6 +2,8 @@ export type ProjectScreenshot = {
     src: string;
     alt: string;
     caption?: string;
+    width: number;
+    height: number;
 };
 
 export type ProjectArchitectureStep = {
