@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
-    const baseUrl = "https://firman-aprilian-sugiharto.vercel.app";
+const siteUrl = "https://firman-aprilian-sugiharto.vercel.app";
 
+export default function robots(): MetadataRoute.Robots {
     return {
         rules: {
             userAgent: "*",
             allow: "/",
         },
-        sitemap: `${baseUrl}/sitemap.xml`,
+        sitemap: `${siteUrl}/sitemap.xml`,
     };
 }
