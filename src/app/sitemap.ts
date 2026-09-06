@@ -1,18 +1,18 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/data/projects";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = "https://firman-aprilian-sugiharto.vercel.app";
+const siteUrl = "https://firman-aprilian-sugiharto.vercel.app";
 
+export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
-            url: baseUrl,
+            url: siteUrl,
             lastModified: new Date(),
             changeFrequency: "monthly",
             priority: 1,
         },
         ...projects.map((project) => ({
-            url: `${baseUrl}/projects/${project.slug}`,
+            url: `${siteUrl}/projects/${project.slug}`,
             lastModified: new Date(),
             changeFrequency: "monthly" as const,
             priority: project.featured ? 0.9 : 0.7,
