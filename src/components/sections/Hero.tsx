@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/layout/Container";
+import { githubUrl } from "@/config/navigation";
 
 const primaryTechnologies = [
     "Go",
@@ -14,7 +15,6 @@ export default function Hero() {
         <section className="flex min-h-[calc(100vh-64px)] items-center border-b border-border md:min-h-[calc(100vh-72px)]">
             <Container className="py-20 md:py-24 lg:py-30">
                 <div className="max-w-[820px]">
-                    {/* existing hero content */}
                     <p className="mb-6 font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
                         Backend Developer
                     </p>
@@ -38,7 +38,7 @@ export default function Hero() {
                         </Link>
 
                         <Link
-                            href="https://github.com/shiinobu"
+                            href={githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-6 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
@@ -55,10 +55,7 @@ export default function Hero() {
                                 </span>
 
                                 {index < primaryTechnologies.length - 1 && (
-                                    <span
-                                        aria-hidden="true"
-                                        className="text-border"
-                                    >
+                                    <span aria-hidden="true" className="text-border">
                                         ·
                                     </span>
                                 )}
