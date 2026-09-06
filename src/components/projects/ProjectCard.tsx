@@ -25,13 +25,25 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <ProjectTags technologies={project.technologies} />
       </div>
 
-      <div className="mt-auto pt-8">
+      <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
         <Link
           href={`/projects/${project.slug}`}
           className="inline-flex min-h-12 items-center gap-2 font-mono text-xs font-medium tracking-[0.08em] text-primary transition-colors duration-200 hover:text-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
           View Case Study
           <span aria-hidden="true">→</span>
+        </Link>
+
+        <Link
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-12 items-center font-mono text-xs font-medium tracking-[0.08em] text-foreground-secondary transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary uppercase"
+        >
+          GitHub
+          <span aria-hidden="true" className="ml-1.5">
+            ↗
+          </span>
         </Link>
       </div>
     </article>
