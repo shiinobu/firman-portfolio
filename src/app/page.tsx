@@ -1,4 +1,3 @@
-import Navbar from "@/components/navigation/Navbar";
 import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
 import Experience from "@/components/sections/Experience";
@@ -8,17 +7,13 @@ import TechStack from "@/components/sections/TechStack";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-
-      <main>
-        <Hero />
-        <About />
-        <TechStack />
-        <Projects />
-        <Experience />
-        <Contact />
-      </main>
-    </>
+    <main id="main-content">
+      <Hero />
+      <About />
+      <TechStack />
+      <Projects />
+      <Experience />
+      <Contact />
+    </main>
   );
 }
