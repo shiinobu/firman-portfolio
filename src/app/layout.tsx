@@ -16,7 +16,10 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const siteUrl = "https://firman-aprilian-sugiharto.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Firman Aprilian Sugiharto — Fullstack Developer",
     template: "%s — Firman Aprilian Sugiharto",
@@ -37,15 +40,20 @@ export const metadata: Metadata = {
     "MySQL",
     "Docker",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
+    locale: "en_US",
+    url: siteUrl,
     title: "Firman Aprilian Sugiharto — Fullstack Developer",
     description:
       "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
     siteName: "Firman Aprilian Sugiharto Portfolio",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Firman Aprilian Sugiharto — Fullstack Developer",
     description:
       "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
