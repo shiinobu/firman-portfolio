@@ -17,9 +17,43 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Firman Aprilian Sugiharto — Backend Developer",
+  title: {
+    default: "Firman Aprilian Sugiharto — Fullstack Developer",
+    template: "%s — Firman Aprilian Sugiharto",
+  },
   description:
-    "Backend Developer building reliable APIs and backend systems with Go.",
+    "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
+  applicationName: "Firman Aprilian Sugiharto Portfolio",
+  authors: [{ name: "Firman Aprilian Sugiharto" }],
+  creator: "Firman Aprilian Sugiharto",
+  keywords: [
+    "Firman Aprilian Sugiharto",
+    "Fullstack Developer",
+    "Backend Developer",
+    "Go Developer",
+    "PHP Developer",
+    "REST API",
+    "PostgreSQL",
+    "MySQL",
+    "Docker",
+  ],
+  openGraph: {
+    type: "website",
+    title: "Firman Aprilian Sugiharto — Fullstack Developer",
+    description:
+      "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
+    siteName: "Firman Aprilian Sugiharto Portfolio",
+  },
+  twitter: {
+    card: "summary",
+    title: "Firman Aprilian Sugiharto — Fullstack Developer",
+    description:
+      "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
