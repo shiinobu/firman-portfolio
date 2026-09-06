@@ -11,34 +11,35 @@ const inter = Inter({
 });
 
 const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
-const siteUrl = "https://firman-aprilian-sugiharto.vercel.app";
+const siteUrl = "https://firman-aprilian.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Firman Aprilian Sugiharto — Fullstack Developer",
+    default: "Firman Aprilian Sugiharto — Backend Developer",
     template: "%s — Firman Aprilian Sugiharto",
   },
   description:
-    "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
+    "Portfolio of Firman Aprilian Sugiharto, a Backend Developer building reliable APIs and backend systems with Go.",
   applicationName: "Firman Aprilian Sugiharto Portfolio",
   authors: [{ name: "Firman Aprilian Sugiharto" }],
   creator: "Firman Aprilian Sugiharto",
   keywords: [
     "Firman Aprilian Sugiharto",
-    "Fullstack Developer",
     "Backend Developer",
+    "Backend Engineer",
     "Go Developer",
-    "PHP Developer",
     "REST API",
     "PostgreSQL",
     "MySQL",
     "Docker",
+    "WebSocket",
+    "GORM",
   ],
   alternates: {
     canonical: "/",
@@ -47,16 +48,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    title: "Firman Aprilian Sugiharto — Fullstack Developer",
+    title: "Firman Aprilian Sugiharto — Backend Developer",
     description:
-      "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
+      "Backend Developer building reliable APIs and backend systems with Go.",
     siteName: "Firman Aprilian Sugiharto Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Firman Aprilian Sugiharto — Fullstack Developer",
+    title: "Firman Aprilian Sugiharto — Backend Developer",
     description:
-      "Portfolio of Firman Aprilian Sugiharto, a Fullstack Developer building web applications, APIs, and reliable backend systems.",
+      "Backend Developer building reliable APIs and backend systems with Go.",
   },
   robots: {
     index: true,
