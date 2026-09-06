@@ -2,7 +2,7 @@ import { githubUrl } from "@/config/navigation";
 
 export const contactLinks = [
     {
-        label: "Email",
+        label: "Email Me",
         href: "mailto:firman.apriliann@gmail.com",
         external: false,
         primary: true,
