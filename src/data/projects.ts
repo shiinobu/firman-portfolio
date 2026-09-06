@@ -116,7 +116,52 @@ export const projects: readonly Project[] = [
         solution: "Designed a REST API around the disbursement lifecycle, with JWT authentication, role-based authorization, status-based business rules, pagination, search, and reporting endpoints.",
         architecture: "HTTP requests are handled by the API layer and passed through business services before interacting with the MySQL persistence layer through repositories. Authentication and authorization middleware protect operations according to user roles and business rules.",
         challenges: ["Implementing controlled disbursement state transitions", "Enforcing role-based permissions on sensitive operations", "Preventing invalid operations based on the current record status", "Designing consistent paginated API responses", "Supporting search and CSV reporting alongside transactional operations"],
-        screenshots: [],
+
+        screenshots: [
+            {
+                src: "/projects/disbursement-api/01-login-auth.webp",
+                alt: "Postman login request returning a JWT token for the Disbursement API.",
+                caption: "JWT authentication returning an authenticated admin user and access token.",
+                width: 1100,
+                height: 653,
+            },
+            {
+                src: "/projects/disbursement-api/02-create-disbursement.webp",
+                alt: "Postman create disbursement request returning a PENDING disbursement.",
+                caption: "Creating a disbursement and initializing its lifecycle with PENDING status.",
+                width: 1100,
+                height: 652,
+            },
+            {
+                src: "/projects/disbursement-api/03-disbursement-list.webp",
+                alt: "Postman disbursement list endpoint showing paginated results.",
+                caption: "Paginated disbursement listing with response metadata.",
+                width: 1100,
+                height: 651,
+            },
+            {
+                src: "/projects/disbursement-api/04-approval.webp",
+                alt: "Postman approval request changing a pending disbursement to APPROVED.",
+                caption: "Authorized approval workflow transitioning PENDING to APPROVED.",
+                width: 1100,
+                height: 654,
+            },
+            {
+                src: "/projects/disbursement-api/05-rejection.webp",
+                alt: "Postman rejection request changing a pending disbursement to REJECTED.",
+                caption: "Rejection workflow with a recorded rejection reason.",
+                width: 1100,
+                height: 649,
+            },
+            {
+                src: "/projects/disbursement-api/06-business-rule-409.webp",
+                alt: "Postman response returning 409 Conflict when processing an already processed disbursement.",
+                caption: "Business-rule enforcement preventing an already processed disbursement from being processed again.",
+                width: 1100,
+                height: 331,
+            },
+        ],
+
         github: "https://github.com/shiinobu/disbursement-api",
         result: "The API demonstrates how business rules, authorization, transaction states, pagination, search, and reporting can be organized into a maintainable Go backend architecture.",
     },
