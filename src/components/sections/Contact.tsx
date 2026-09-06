@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Section from "@/components/layout/Section";
+import { githubUrl } from "@/config/navigation";
 
 const contactLinks = [
     {
         label: "GitHub",
-        href: "https://github.com/shiinobu",
+        href: githubUrl,
         external: true,
     },
     {
@@ -21,11 +22,7 @@ const contactLinks = [
 
 export default function Contact() {
     return (
-        <Section
-            id="contact"
-            className="bg-background"
-        >
-            {/* existing Contact content */}
+        <Section id="contact" className="bg-background">
             <div className="max-w-[760px]">
                 <p className="font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
                     Contact
