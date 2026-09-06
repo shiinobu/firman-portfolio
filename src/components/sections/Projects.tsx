@@ -15,7 +15,6 @@ export default function Projects() {
             id="projects"
             className="border-y border-border bg-background-soft"
         >
-            {/* existing Projects content */}
             <div className="max-w-[760px]">
                 <p className="font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
                     Selected Work
@@ -26,8 +25,8 @@ export default function Projects() {
                 </h2>
 
                 <p className="mt-5 text-base leading-[1.7] text-justify text-foreground-secondary md:text-lg">
-                    A selection of backend and full-stack projects focused on realtime
-                    systems, transactional workflows, business logic, and maintainable
+                    A selection of backend projects focused on realtime systems,
+                    transactional workflows, business logic, and maintainable
                     application architecture.
                 </p>
             </div>
