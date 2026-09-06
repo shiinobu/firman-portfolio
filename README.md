@@ -1,37 +1,194 @@
-# firman-portfolio
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Firman Aprilian Sugiharto — Backend Developer
+
+Personal portfolio of **Firman Aprilian Sugiharto**, focused on backend engineering and building reliable backend systems with Go.
+
+**Portfolio:** https://firman-aprilian.vercel.app  
+**GitHub:** https://github.com/shiinobu
+
+## About
+
+This portfolio presents selected backend projects, professional experience, technical focus, and engineering case studies.
+
+The primary focus is:
+
+- Backend development with Go
+- REST API design and implementation
+- PostgreSQL and MySQL database systems
+- Authentication and authorization
+- Realtime communication with WebSocket
+- Business logic and transactional workflows
+- Maintainable backend architecture
+- Docker-based development and deployment
+
+Supporting technologies include PHP/Laravel, TypeScript, React/Next.js, JavaScript, GORM, and GitHub Actions.
+
+## Featured Projects
+
+### Device Monitoring System
+
+Realtime device monitoring system built with Go, PostgreSQL, and WebSocket.
+
+Key capabilities include:
+
+- Device registration and management
+- Heartbeat processing
+- Realtime online/offline status monitoring
+- Offline detection and notifications
+- Monitoring dashboard and reporting
+
+Repository: https://github.com/shiinobu/device-monitoring-system  
+Case study: https://firman-aprilian.vercel.app/projects/device-monitoring-system
+
+### Disbursement API
+
+Backend API focused on transactional business logic, status workflows, validation, and database-driven operations.
+
+Repository: https://github.com/shiinobu/disbursement-api  
+Case study: https://firman-aprilian.vercel.app/projects/disbursement-api
+
+### Other Projects
+
+- **Manufacture System API** — Go REST API for manufacturing-related business workflows.
+  - https://github.com/shiinobu/manufacture-system-api
+- **Tourism Management API** — Laravel/PHP-based project demonstrating broader web application experience.
+  - https://github.com/shiinobu/tourism-management-api
+
+## Tech Stack
+
+| Area | Technologies |
+| --- | --- |
+| Primary language | Go |
+| API | REST API |
+| Databases | PostgreSQL, MySQL |
+| Realtime | WebSocket |
+| Authentication | JWT |
+| ORM | GORM |
+| Infrastructure | Docker |
+| CI/CD | GitHub Actions |
+| Supporting | PHP/Laravel, TypeScript, React/Next.js, JavaScript |
+
+## Project Structure
+
+```text
+firman-portfolio/
+├── public/
+│   ├── images/
+│   ├── projects/
+│   └── icons/
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── config/
+│   ├── data/
+│   ├── lib/
+│   └── types/
+├── .vscode/
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── README.md
+└── tsconfig.json
+```
+
+The application uses the Next.js App Router with TypeScript and Tailwind CSS.
 
 ## Getting Started
 
-First, run the development server:
+### Requirements
+
+- Node.js 20.9 or newer
+- npm
+- Git
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/shiinobu/firman-portfolio.git
+cd firman-portfolio
+npm install
+```
+
+### Development
+
+Start the local development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Lint
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run ESLint before committing changes:
 
-## Learn More
+```bash
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Production Build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Validate the production build locally:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+Run the production server after a successful build:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application will be available at `http://localhost:3000`.
+
+## Environment Variables
+
+The current portfolio does not require environment variables for its core functionality.
+
+If environment-dependent features are added in the future, document the required variables here and provide a safe `.env.example` without committing secrets.
+
+## Deployment
+
+The portfolio is intended to be deployed on Vercel.
+
+Production URL:
+
+https://firman-aprilian.vercel.app
+
+For a production deployment, make sure the following checks pass locally:
+
+```bash
+npm install
+npm run lint
+npm run build
+```
+
+## SEO
+
+The application includes:
+
+- Page metadata and canonical URL configuration
+- Open Graph metadata
+- Twitter card metadata
+- `sitemap.xml`
+- `robots.txt`
+- Static project routes generated from project data
+
+## Accessibility
+
+The UI includes accessibility-oriented details such as:
+
+- Skip navigation
+- Keyboard-accessible navigation
+- Visible focus states
+- Semantic page structure
+- Responsive touch targets
+- Reduced-motion support
+
+## License
+
+This repository is a personal portfolio project. Unless otherwise stated, the source code and portfolio content are not licensed for redistribution or commercial reuse.
