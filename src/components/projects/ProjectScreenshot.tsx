@@ -25,10 +25,11 @@ export default function ProjectScreenshot({
             <Image
                 src={screenshot.src}
                 alt={screenshot.alt}
-                width={1600}
-                height={1000}
+                width={screenshot.width}
+                height={screenshot.height}
                 priority={priority}
-                className="h-auto w-full object-cover transition-transform duration-300 hover:scale-[1.01]"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="h-auto w-full object-contain transition-transform duration-300 hover:scale-[1.01]"
             />
 
             {screenshot.caption && (
