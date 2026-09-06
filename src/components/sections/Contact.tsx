@@ -10,13 +10,13 @@ export default function Contact() {
                 </p>
 
                 <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                    Let’s build something reliable.
+                    Let’s talk about backend engineering.
                 </h2>
 
                 <p className="mt-5 text-base leading-[1.7] text-justify text-foreground-secondary md:text-lg">
-                    I’m open to discussing backend engineering opportunities, software
-                    projects, technical challenges, and opportunities to build reliable
-                    systems together.
+                    I’m open to backend engineering opportunities, technical discussions,
+                    and software projects where I can contribute to reliable APIs and
+                    backend systems.
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
