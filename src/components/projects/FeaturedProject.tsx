@@ -1,9 +1,8 @@
 import Link from "next/link";
-
-import ProjectMeta from "@/components/projects/ProjectMeta";
-import ProjectScreenshot from "@/components/projects/ProjectScreenshot";
-import ProjectTags from "@/components/projects/ProjectTags";
 import type { Project } from "@/types/project";
+import ProjectMeta from "./ProjectMeta";
+import ProjectScreenshot from "./ProjectScreenshot";
+import ProjectTags from "./ProjectTags";
 
 type FeaturedProjectProps = {
     project: Project;
@@ -15,50 +14,59 @@ export default function FeaturedProject({
     reverse = false,
 }: FeaturedProjectProps) {
     return (
-        <article className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-16">
-            <div className={reverse ? "lg:order-2" : ""}>
-                <ProjectScreenshot
-                    src={project.screenshots[0]}
-                    alt={`${project.title} project preview`}
-                />
-            </div>
+        <article
+            className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-14 ${reverse ? "lg:[&>*:first-child]:order-2" : ""
+                }`}
+        >
+            <ProjectScreenshot
+                screenshot={project.screenshots[0]}
+                priority={project.slug === "device-monitoring-system"}
+            />
 
-            <div className={reverse ? "lg:order-1" : ""}>
+            <div>
                 <ProjectMeta category={project.category} />
 
-                <h3 className="mt-3 text-2xl leading-[1.3] font-semibold tracking-[-0.02em] text-foreground md:text-3xl">
+                <h3 className="mt-4 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
                     {project.title}
                 </h3>
 
-                <p className="mt-5 text-base leading-[1.7] text-justify text-foreground-secondary">
+                <p className="mt-5 text-base leading-[1.7] text-justify text-foreground-secondary md:text-lg">
                     {project.description}
                 </p>
-
-                {project.slug === "device-monitoring-system" && (
-                    <p className="mt-5 font-mono text-xs leading-[1.6] text-foreground-muted">
-                        10s heartbeat · 5s monitoring · 30s offline threshold
-                    </p>
-                )}
 
                 <div className="mt-6">
                     <ProjectTags technologies={project.technologies} />
                 </div>
 
-                <div className="mt-7 flex flex-wrap items-center gap-5">
+                {project.technicalHighlights.length > 0 && (
+                    <div className="mt-6 border-l-2 border-primary pl-4">
+                        <p className="font-mono text-xs leading-[1.6] text-foreground-muted">
+                            {project.technicalHighlights.slice(0, 3).join(" · ")}
+                        </p>
+                    </div>
+                )}
+
+                <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                     <Link
                         href={`/projects/${project.slug}`}
-                        className="text-sm font-semibold text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                        className="inline-flex min-h-12 items-center text-sm font-semibold text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                     >
-                        View Case Study →
+                        View Case Study
+                        <span aria-hidden="true" className="ml-2">
+                            →
+                        </span>
                     </Link>
 
                     <Link
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-medium text-foreground-secondary transition-colors duration-200 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                        className="inline-flex min-h-12 items-center text-sm font-semibold text-foreground-secondary transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                     >
-                        GitHub ↗
+                        GitHub
+                        <span aria-hidden="true" className="ml-1.5">
+                            ↗
+                        </span>
                     </Link>
                 </div>
             </div>
