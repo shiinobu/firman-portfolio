@@ -1,7 +1,7 @@
 export const experiences = [
     {
         period: "Oct 2022 — Mar 2026",
-        role: "Developer",
+        role: "Fullstack Developer",
         company: "PT. Benderaku Berkibar Selalu",
         description:
             "Developed and maintained web applications for client projects and internal company needs, including CRM and POS systems supporting sales processes and business operations.",
