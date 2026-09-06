@@ -1,24 +1,5 @@
-import Link from "next/link";
 import Section from "@/components/layout/Section";
-import { githubUrl } from "@/config/navigation";
-
-const contactLinks = [
-    {
-        label: "GitHub",
-        href: githubUrl,
-        external: true,
-    },
-    {
-        label: "Email",
-        href: "mailto:firman.apriliann@gmail.com",
-        external: false,
-    },
-    {
-        label: "Phone",
-        href: "tel:+6285117000255",
-        external: false,
-    },
-] as const;
+import { contactLinks } from "@/config/contact";
 
 export default function Contact() {
     return (
@@ -40,7 +21,7 @@ export default function Contact() {
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                     {contactLinks.map((link) => (
-                        <Link
+                        <a
                             key={link.label}
                             href={link.href}
                             {...(link.external
@@ -49,11 +30,15 @@ export default function Contact() {
                                     rel: "noopener noreferrer",
                                 }
                                 : {})}
-                            className="inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-6 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                            className={
+                                link.primary
+                                    ? "inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                                    : "inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-6 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                            }
                         >
                             {link.label}
                             {link.external && " ↗"}
-                        </Link>
+                        </a>
                     ))}
                 </div>
             </div>
