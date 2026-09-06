@@ -1,12 +1,13 @@
 export const experiences = [
     {
         period: "Oct 2022 — Mar 2026",
-        role: "Developer",
+        role: "Fullstack Developer",
         company: "PT. Benderaku Berkibar Selalu",
         description:
-            "Developed and maintained web applications for client projects and internal company needs, with a focus on backend functionality, database operations, application stability, and business-driven requirements.",
+            "Developed and maintained web applications for client projects and internal company needs, including CRM and POS systems supporting sales processes and business operations.",
         responsibilities: [
             "Developed and maintained web applications for client and internal business needs",
+            "Worked on CRM and POS systems to support customer service, sales processes, and business operations",
             "Implemented features, fixed bugs, and handled ongoing application maintenance",
             "Managed and updated MySQL databases to support application and operational requirements",
             "Performed debugging and troubleshooting to maintain application stability and support business operations",
