@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Container from "@/components/layout/Container";
 
 const primaryTechnologies = [
     "Go",
@@ -11,13 +12,14 @@ const primaryTechnologies = [
 export default function Hero() {
     return (
         <section className="flex min-h-[calc(100vh-64px)] items-center border-b border-border md:min-h-[calc(100vh-72px)]">
-            <div className="mx-auto w-full max-w-[1200px] px-5 py-20 md:px-8 md:py-24 lg:px-10 lg:py-30">
+            <Container className="py-20 md:py-24 lg:py-30">
                 <div className="max-w-[820px]">
+                    {/* existing hero content */}
                     <p className="mb-6 font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
                         Backend Developer
                     </p>
 
-                    <h1 className="max-w-[800px] text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[64px]">
+                    <h1 className="max-w-[800px] text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[64px]">
                         Building reliable backend systems with Go.
                     </h1>
 
@@ -64,7 +66,7 @@ export default function Hero() {
                         ))}
                     </div>
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

@@ -49,7 +49,7 @@ export default function FeaturedProject({
                 <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                     <Link
                         href={`/projects/${project.slug}`}
-                        className="inline-flex min-h-12 items-center text-sm font-semibold text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                        className="inline-flex items-center gap-2 font-mono text-xs font-medium tracking-[0.08em] text-primary transition-colors duration-200 hover:text-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                     >
                         View Case Study
                         <span aria-hidden="true" className="ml-2">

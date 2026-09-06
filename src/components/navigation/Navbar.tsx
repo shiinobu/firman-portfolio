@@ -11,8 +11,8 @@ export default function Navbar() {
                     href="/"
                     className="text-base font-semibold tracking-tight text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary md:text-lg"
                 >
-                    <span className="hidden sm:inline uppercase">Firman Aprilian Sugiharto</span>
-                    <span className="sm:hidden">FA</span>
+                    <span className="hidden sm:inline font-mono text-xs font-medium tracking-[0.08em] text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:text-sm uppercase">Firman Aprilian Sugiharto</span>
+                    <span className="sm:hidden font-mono text-xl font-medium tracking-[0.08em] text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:text-sm uppercase">FA</span>
                 </Link>
 
                 <DesktopNav />

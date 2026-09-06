@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { githubUrl, navigationItems } from "@/config/navigation";
 
@@ -12,14 +12,31 @@ export default function MobileNav() {
         setIsOpen(false);
     };
 
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isOpen]);
+
     return (
         <div className="md:hidden">
             <button
                 type="button"
                 aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={isOpen}
-                onClick={() => setIsOpen((current) => !current)}
-                className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground-secondary transition-colors duration-200 hover:border-primary hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                aria-controls="mobile-navigation"
+                onClick={() => setIsOpen((open) => !open)}
+                className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-border text-foreground-secondary transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
                 <span className="sr-only">
                     {isOpen ? "Close menu" : "Open menu"}
@@ -45,14 +62,14 @@ export default function MobileNav() {
 
             {isOpen && (
                 <div className="absolute inset-x-0 top-full border-b border-border bg-background px-5 py-5">
-                    <nav aria-label="Mobile navigation">
+                    <nav aria-label="Mobile navigation" className="border-t border-border bg-background">
                         <ul className="flex flex-col gap-1">
                             {navigationItems.map((item) => (
                                 <li key={item.href}>
                                     <Link
                                         href={item.href}
                                         onClick={closeMenu}
-                                        className="block rounded-lg px-3 py-3 text-base font-medium text-foreground-secondary transition-colors duration-200 hover:bg-surface hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary uppercase"
+                                        className="block border-b border-border-soft py-4 font-mono text-sm font-medium tracking-[0.08em] text-foreground-secondary transition-colors duration-200 hover:text-primary uppercase"
                                     >
                                         {item.label}
                                     </Link>
