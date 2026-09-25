@@ -1,5 +1,7 @@
 # Firman Aprilian Sugiharto | Fullstack Engineer
 
+<div align="justify">
+
 Personal portfolio: https://firman-aprilian.vercel.app
 
 A home page (work, about, stack, experience, contact) and a case study for each project. Built with Next.js 16 (App Router), React 19 with the React Compiler, TypeScript and Tailwind CSS v4. Every page is statically generated.
