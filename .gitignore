@@ -49,3 +49,9 @@ pnpm-debug.log*
 
 # editor
 .DS_Store
+
+# claude
+.claude
+
+# vscode
+.vscode
