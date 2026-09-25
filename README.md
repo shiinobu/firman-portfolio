@@ -1,194 +1,79 @@
-# Firman Aprilian Sugiharto — Backend Developer
+# Firman Aprilian Sugiharto | Backend Developer
 
-Personal portfolio of **Firman Aprilian Sugiharto**, focused on backend engineering and building reliable backend systems with Go.
+Personal portfolio: https://firman-aprilian.vercel.app
 
-**Portfolio:** https://firman-aprilian.vercel.app  
-**GitHub:** https://github.com/shiinobu
+Built with the Next.js App Router, React, TypeScript and Tailwind CSS v4. Every page is statically generated.
 
-## About
+## Getting started
 
-This portfolio presents selected backend projects, professional experience, technical focus, and engineering case studies.
+Requires Node.js 20.9 or newer and npm.
 
-The primary focus is:
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run lint
+npm run build      # production build
+npm run start      # serve the production build
+```
 
-- Backend development with Go
-- REST API design and implementation
-- PostgreSQL and MySQL database systems
-- Authentication and authorization
-- Realtime communication with WebSocket
-- Business logic and transactional workflows
-- Maintainable backend architecture
-- Docker-based development and deployment
+This Next.js version has breaking changes. The matching docs are bundled in `node_modules/next/dist/docs/`; read the relevant guide before changing framework-level code (see `AGENTS.md`).
 
-Supporting technologies include PHP/Laravel, TypeScript, React/Next.js, JavaScript, GORM, and GitHub Actions.
+## Content
 
-## Featured Projects
+All copy lives in data files, and the pages render from them.
 
-### Device Monitoring System
-
-Realtime device monitoring system built with Go, PostgreSQL, and WebSocket.
-
-Key capabilities include:
-
-- Device registration and management
-- Heartbeat processing
-- Realtime online/offline status monitoring
-- Offline detection and notifications
-- Monitoring dashboard and reporting
-
-Repository: https://github.com/shiinobu/device-monitoring-system  
-Case study: https://firman-aprilian.vercel.app/projects/device-monitoring-system
-
-### Disbursement API
-
-Backend API focused on transactional business logic, status workflows, validation, and database-driven operations.
-
-Repository: https://github.com/shiinobu/disbursement-api  
-Case study: https://firman-aprilian.vercel.app/projects/disbursement-api
-
-### Other Projects
-
-- **Manufacture System API** — Go REST API for manufacturing-related business workflows.
-  - https://github.com/shiinobu/manufacture-system-api
-- **Tourism Management API** — Laravel/PHP-based project demonstrating broader web application experience.
-  - https://github.com/shiinobu/tourism-management-api
-
-## Tech Stack
-
-| Area | Technologies |
+| File | What it holds |
 | --- | --- |
-| Primary language | Go |
-| API | REST API |
-| Databases | PostgreSQL, MySQL |
-| Realtime | WebSocket |
-| Authentication | JWT |
-| ORM | GORM |
-| Infrastructure | Docker |
-| CI/CD | GitHub Actions |
-| Supporting | PHP/Laravel, TypeScript, React/Next.js, JavaScript |
+| `src/config/site.ts` | name, role, URL, contact details, tagline |
+| `src/data/projects.ts` | projects, case-study content, real API requests |
+| `src/data/experience.ts` | work history |
+| `src/data/skills.ts` | the stack table |
 
-## Project Structure
+To add a project, append an entry to `projects` and put its screenshots in `public/projects/<slug>/`. The case-study page, sitemap entry and social image are generated from it.
+
+## Design system
+
+- **Tokens** live in `src/app/globals.css`: `paper`, `ink`, `signal` (online / available), `alert` (offline) and an inverted band. Every text and background pair was checked against WCAG AA in both themes.
+- **Themes.** Light is the default. Dark is opt-in through `data-theme="dark"`: the header toggle sets it, `localStorage` remembers it, and a small inline script applies it before first paint.
+- **Fonts** are Archivo (variable, width and weight axes) and JetBrains Mono, loaded with `next/font`. Tailwind needs `@theme inline` so the font variables resolve; without it `font-mono` silently falls back to the sans font.
+- **Conventions.** Rules and tables instead of cards, mono type only for data, and color that means status. Body text is never justified.
+- **Heartbeat strip** (`src/components/heartbeat`) is a simulation of the Device Monitoring System's logic. The model is pure functions of a tick number, so server and client renders match. It pauses off-screen, in background tabs and under `prefers-reduced-motion`.
+
+## SEO and sharing
+
+- `pageMetadata()` in `src/lib/metadata.ts` builds each page's metadata. Next merges `openGraph` and `alternates` shallowly across segments, so a value set in the root layout would make every page canonicalise to the home page. Each page defines its own.
+- Open Graph and Twitter images are generated at build time (`opengraph-image.tsx`, `src/lib/og.tsx`) from the fonts in `assets/og/`. `ImageResponse` reads ttf, otf and woff only, and static instances rather than variable fonts.
+- A schema.org `Person` block is in the root layout, plus `robots.txt` and `sitemap.xml`.
+
+## Project structure
 
 ```text
-firman-portfolio/
-├── public/
-│   ├── images/
-│   ├── projects/
-│   └── icons/
-├── src/
-│   ├── app/
-│   ├── components/
-│   ├── config/
-│   ├── data/
-│   ├── lib/
-│   └── types/
-├── .vscode/
-├── eslint.config.mjs
-├── next.config.ts
-├── package.json
-├── postcss.config.mjs
-├── README.md
-└── tsconfig.json
+├── assets/og/              fonts for the generated social images
+├── public/projects/        project screenshots
+└── src/
+    ├── app/                routes, layout, design tokens, social images, robots, sitemap
+    ├── components/
+    │   ├── heartbeat/      the heartbeat simulation
+    │   ├── layout/         Container, Section, Footer
+    │   ├── navigation/     Navbar, NavLinks, ThemeToggle
+    │   ├── projects/       featured project, rows, request log, architecture trace
+    │   ├── sections/       home page sections
+    │   └── ui/             Button, IconLink, Badge, InlineList, icons
+    ├── config/             site details, navigation, contact links
+    ├── data/               projects, experience, skills
+    ├── lib/                metadata helper, social image renderer
+    └── types/
 ```
-
-The application uses the Next.js App Router with TypeScript and Tailwind CSS.
-
-## Getting Started
-
-### Requirements
-
-- Node.js 20.9 or newer
-- npm
-- Git
-
-### Installation
-
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/shiinobu/firman-portfolio.git
-cd firman-portfolio
-npm install
-```
-
-### Development
-
-Start the local development server:
-
-```bash
-npm run dev
-```
-
-Open `http://localhost:3000` in your browser.
-
-### Lint
-
-Run ESLint before committing changes:
-
-```bash
-npm run lint
-```
-
-### Production Build
-
-Validate the production build locally:
-
-```bash
-npm run build
-```
-
-Run the production server after a successful build:
-
-```bash
-npm run start
-```
-
-The application will be available at `http://localhost:3000`.
-
-## Environment Variables
-
-The current portfolio does not require environment variables for its core functionality.
-
-If environment-dependent features are added in the future, document the required variables here and provide a safe `.env.example` without committing secrets.
 
 ## Deployment
 
-The portfolio is intended to be deployed on Vercel.
-
-Production URL:
-
-https://firman-aprilian.vercel.app
-
-For a production deployment, make sure the following checks pass locally:
+Deployed on Vercel. Before pushing, make sure these pass:
 
 ```bash
-npm install
 npm run lint
 npm run build
 ```
 
-## SEO
-
-The application includes:
-
-- Page metadata and canonical URL configuration
-- Open Graph metadata
-- Twitter card metadata
-- `sitemap.xml`
-- `robots.txt`
-- Static project routes generated from project data
-
-## Accessibility
-
-The UI includes accessibility-oriented details such as:
-
-- Skip navigation
-- Keyboard-accessible navigation
-- Visible focus states
-- Semantic page structure
-- Responsive touch targets
-- Reduced-motion support
-
 ## License
 
-This repository is a personal portfolio project. Unless otherwise stated, the source code and portfolio content are not licensed for redistribution or commercial reuse.
+This is a personal portfolio. Unless stated otherwise, the source code and content are not licensed for redistribution or commercial reuse.

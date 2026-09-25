@@ -1,22 +1,7 @@
-import { githubUrl } from "@/config/navigation";
+import { site } from "@/config/site";
 
 export const contactLinks = [
-    {
-        label: "Email Me",
-        href: "mailto:firman.apriliann@gmail.com",
-        external: false,
-        primary: true,
-    },
-    {
-        label: "GitHub",
-        href: githubUrl,
-        external: true,
-        primary: false,
-    },
-    {
-        label: "Phone",
-        href: "tel:+6285117000255",
-        external: false,
-        primary: false,
-    },
+  { label: "GitHub", href: site.github, external: true },
+  { label: "JobStreet", href: site.jobstreet, external: true },
+  { label: "Phone", href: `tel:${site.phone}`, external: false },
 ] as const;

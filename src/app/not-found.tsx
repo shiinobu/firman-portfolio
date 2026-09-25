@@ -1,30 +1,22 @@
-import Link from "next/link";
+import Container from "@/components/layout/Container";
+import Button from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-[calc(100vh-64px)] items-center md:min-h-[calc(100vh-72px)]">
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-20 md:px-8 lg:px-10">
-        <div className="max-w-[680px]">
-          <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-            404
-          </p>
+    <Container className="py-24 md:py-32">
+      <p className="font-mono text-sm text-alert">404 Not Found</p>
 
-          <h1 className="mt-4 text-4xl leading-[1.1] font-bold tracking-[-0.02em] text-foreground sm:text-5xl">
-            Page not found.
-          </h1>
+      <h1 className="mt-6 max-w-[14ch] text-title leading-[1] font-bold tracking-[-0.03em]">
+        This page does not exist.
+      </h1>
 
-          <p className="mt-5 max-w-2xl text-base leading-[1.7] text-foreground-secondary sm:text-lg">
-            The page you are looking for does not exist or is no longer available.
-          </p>
+      <p className="mt-6 max-w-[48ch] text-lg text-ink-2">
+        The link may be wrong, or the page has moved.
+      </p>
 
-          <Link
-            href="/#projects"
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-          >
-            Back to Projects
-          </Link>
-        </div>
+      <div className="mt-10">
+        <Button href="/#work">Back to my work</Button>
       </div>
-    </main>
+    </Container>
   );
 }

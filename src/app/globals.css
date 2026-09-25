@@ -1,49 +1,159 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  --color-background: #0b0f14;
-  --color-background-soft: #11161d;
+/*
+ * Design tokens.
+ * Light is the default theme. Dark is opt-in (data-theme="dark", set by the
+ * toggle and remembered in localStorage). Every text/background pair below
+ * was checked against WCAG AA in both themes.
+ */
+:root {
+  color-scheme: light;
 
-  --color-surface: #161c24;
-  --color-surface-elevated: #1c232d;
+  --paper: #f5f6f2;
+  --paper-2: #eceee8;
+  --surface: #ffffff;
+  --ink: #101613;
+  --ink-2: #3a423d;
+  --ink-3: #59625c;
+  --rule: #d6dad1;
+  --signal: #0f7a3d;
+  --on-signal: #ffffff;
+  --alert: #c2371a;
 
-  --color-foreground: #f3f4f6;
-  --color-foreground-secondary: #a1a8b3;
-  --color-foreground-muted: #6b7280;
+  /* Inverted bands (heartbeat strip, contact). Dark in both themes. */
+  --band: #101613;
+  --on-band: #ecefe9;
+  --on-band-2: #b7bfb6;
+  --band-rule: #2b3630;
+  --band-signal: #3dd17a;
+  --band-alert: #ff7358;
+}
 
-  --color-border: #252c36;
-  --color-border-soft: #1c232d;
+:root[data-theme="dark"] {
+  color-scheme: dark;
 
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
+  --paper: #0e1311;
+  --paper-2: #151b18;
+  --surface: #1a211d;
+  --ink: #ecefe9;
+  --ink-2: #b7bfb6;
+  --ink-3: #8e988f;
+  --rule: #27302b;
+  --signal: #3dd17a;
+  --on-signal: #0e1311;
+  --alert: #ff7358;
 
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
+  --band: #1a211d;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-signal: var(--signal);
+  --color-on-signal: var(--on-signal);
+  --color-alert: var(--alert);
+  --color-band: var(--band);
+  --color-on-band: var(--on-band);
+  --color-on-band-2: var(--on-band-2);
+  --color-band-rule: var(--band-rule);
+  --color-band-signal: var(--band-signal);
+  --color-band-alert: var(--band-alert);
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "Cascadia Mono", Consolas,
+    monospace;
+
+  --text-display: clamp(3.25rem, 1rem + 8.4vw, 8.5rem);
+  --text-title: clamp(2.25rem, 1.1rem + 3.6vw, 4.25rem);
+  --text-heading: clamp(1.625rem, 1.1rem + 1.6vw, 2.5rem);
+  --text-lead: clamp(1.375rem, 1rem + 1.2vw, 2rem);
+
+  --container-page: 75rem;
+
+  --animate-beat: beat 2.4s ease-in-out infinite;
+
+  @keyframes beat {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
 }
 
 html {
+  background: var(--paper);
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  margin: 0;
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-inter), sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
 }
 
-section {
-  scroll-margin-top: 72px;
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p,
+li,
+dd,
+figcaption {
+  text-wrap: pretty;
 }
 
 ::selection {
-  background: var(--color-primary);
-  color: var(--color-foreground);
+  background: color-mix(in oklab, var(--signal) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  transition: text-decoration-color 150ms ease;
+
+  &:hover {
+    text-decoration-color: var(--signal);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -54,9 +164,16 @@ section {
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }

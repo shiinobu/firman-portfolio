@@ -1,88 +1,63 @@
 import Section from "@/components/layout/Section";
 
-const engineeringFocus = [
-    "API Design",
-    "Database Systems",
-    "Authentication & Authorization",
-    "Realtime Communication",
-    "Business Logic",
-    "Maintainable Architecture",
-    "Testing",
-    "CI/CD",
-];
+const facts = [
+  { label: "Focus", value: "APIs, databases, realtime updates" },
+  { label: "Experience", value: "3+ years in web development" },
+  {
+    label: "Education",
+    value: [
+      "S1 Informatika",
+      "Universitas Teknologi Digital Indonesia, 2017 – 2023",
+    ],
+  },
+  { label: "Speaks", value: "Indonesian, English" },
+  { label: "Status", value: "Open to backend roles" },
+] as const;
 
 export default function About() {
-    return (
-        <Section id="about" className="bg-background">
-            {/* existing About content */}
-            <div className="mb-12 max-w-[720px]">
-                <p className="font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
-                    About
-                </p>
+  return (
+    <Section id="about" label="About">
+      <div className="grid gap-12 lg:grid-cols-9 lg:gap-x-10">
+        <div className="space-y-6 lg:col-span-5">
+          <p className="text-2xl leading-[1.25] font-medium tracking-[-0.01em] md:text-[1.75rem]">
+            I’m a backend developer. For over three years I built and
+            maintained web applications for clients and internal teams,
+            including CRM and POS systems in PHP and MySQL.
+          </p>
 
-                <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                    Building backend systems with purpose.
-                </h2>
+          <p className="text-lg text-ink-2">
+            Outside of work I build backend systems in Go: REST APIs with JWT
+            and role-based access, realtime updates over WebSocket, and
+            Docker-based setups. I also write TypeScript on the server with
+            Bun, Hono and Prisma.
+          </p>
+
+          <p className="text-lg text-ink-2">
+            I like the parts of a system that have rules: which state changes
+            are allowed, what counts as offline, who may approve what.
+          </p>
+        </div>
+
+        <dl className="divide-y divide-rule self-start border-y border-ink text-[15px] lg:col-span-4">
+          {facts.map((fact) => (
+            <div
+              key={fact.label}
+              className="grid grid-cols-[6.5rem_1fr] gap-4 py-3.5"
+            >
+              <dt className="text-ink-3">{fact.label}</dt>
+              <dd>
+                {typeof fact.value === "string"
+                  ? fact.value
+                  : fact.value.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
+              </dd>
             </div>
-
-            <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20">
-                <div className="max-w-[680px] space-y-5 text-justify text-base leading-[1.7] text-foreground-secondary md:text-lg">
-                    <p>
-                        I’m a Backend Developer focused on building reliable APIs and
-                        backend systems with Go.
-                    </p>
-
-                    <p>
-                        I enjoy turning real-world workflows and business requirements
-                        into structured, maintainable software. My work focuses on REST
-                        API development, database-driven applications, authentication and
-                        authorization, realtime communication, and clean backend
-                        architecture.
-                    </p>
-
-                    <p>
-                        My primary stack includes Go, PostgreSQL, MySQL, and Docker, with
-                        additional experience in PHP/Laravel and modern frontend
-                        technologies such as React and Next.js.
-                    </p>
-
-                    <p>
-                        I’m particularly interested in backend systems where reliability,
-                        clear architecture, and well-defined business logic matter — from
-                        transactional APIs to realtime monitoring systems.
-                    </p>
-
-                    <p>
-                        I continuously improve my engineering practices through
-                        hands-on projects, testing, CI, and exploring better ways to
-                        design and maintain backend systems.
-                    </p>
-                </div>
-
-                <div>
-                    <div className="border-t border-border pt-5">
-                        <p className="font-mono text-xs font-medium tracking-[0.08em] text-foreground-muted uppercase">
-                            Engineering Focus
-                        </p>
-
-                        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                            {engineeringFocus.map((item) => (
-                                <li
-                                    key={item}
-                                    className="flex items-center gap-3 text-sm text-foreground-secondary"
-                                >
-                                    <span
-                                        aria-hidden="true"
-                                        className="size-1.5 shrink-0 rounded-full bg-primary"
-                                    />
-
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </Section>
-    );
+          ))}
+        </dl>
+      </div>
+    </Section>
+  );
 }

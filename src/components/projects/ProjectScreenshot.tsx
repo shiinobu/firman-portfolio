@@ -1,42 +1,47 @@
 import Image from "next/image";
+
 import type { ProjectScreenshot as ProjectScreenshotType } from "@/types/project";
 
 type ProjectScreenshotProps = {
-    screenshot?: ProjectScreenshotType;
-    priority?: boolean;
+  screenshot: ProjectScreenshotType;
+  priority?: boolean;
+  /** Match this to the rendered width, or the browser picks a blurry source. */
+  sizes?: string;
 };
 
 export default function ProjectScreenshot({
-    screenshot,
-    priority = false,
+  screenshot,
+  priority = false,
+  sizes = "(min-width: 1024px) 860px, 100vw",
 }: ProjectScreenshotProps) {
-    if (!screenshot) {
-        return (
-            <div className="flex aspect-[16/10] items-center justify-center rounded-xl border border-border bg-surface">
-                <span className="font-mono text-xs tracking-[0.08em] text-foreground-muted uppercase">
-                    Project Preview
-                </span>
-            </div>
-        );
-    }
+  return (
+    <figure>
+      <div className="overflow-hidden border border-ink bg-surface">
+        <a
+          href={screenshot.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block cursor-zoom-in"
+        >
+          <Image
+            src={screenshot.src}
+            alt={screenshot.alt}
+            width={screenshot.width}
+            height={screenshot.height}
+            priority={priority}
+            sizes={sizes}
+            quality={85}
+            className="h-auto w-full"
+          />
+          <span className="sr-only">(opens the full-size image in a new tab)</span>
+        </a>
+      </div>
 
-    return (
-        <figure className="overflow-hidden rounded-xl border border-border bg-surface">
-            <Image
-                src={screenshot.src}
-                alt={screenshot.alt}
-                width={screenshot.width}
-                height={screenshot.height}
-                priority={priority}
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="h-auto w-full object-contain transition-transform duration-300 hover:scale-[1.01]"
-            />
-
-            {screenshot.caption && (
-                <figcaption className="border-t border-border px-4 py-3 font-mono text-xs text-foreground-muted">
-                    {screenshot.caption}
-                </figcaption>
-            )}
-        </figure>
-    );
+      {screenshot.caption && (
+        <figcaption className="mt-3 max-w-[70ch] text-sm text-ink-3">
+          {screenshot.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
 }

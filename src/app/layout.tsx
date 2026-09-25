@@ -1,70 +1,64 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Archivo, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/navigation/Navbar";
+import { site } from "@/config/site";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
 });
 
 const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+  variable: "--font-jetbrains",
   subsets: ["latin"],
   display: "swap",
 });
 
-const siteUrl = "https://firman-aprilian.vercel.app";
-
+// Metadata is merged shallowly across segments, so openGraph, twitter and
+// alternates are deliberately NOT set here. Each page sets its own.
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(site.url),
   title: {
-    default: "Firman Aprilian Sugiharto — Backend Developer",
-    template: "%s — Firman Aprilian Sugiharto",
+    default: `${site.name} | ${site.role}`,
+    template: `%s | ${site.name}`,
   },
-  description:
-    "Portfolio of Firman Aprilian Sugiharto, a Backend Developer building reliable APIs and backend systems with Go.",
-  applicationName: "Firman Aprilian Sugiharto Portfolio",
-  authors: [{ name: "Firman Aprilian Sugiharto" }],
-  creator: "Firman Aprilian Sugiharto",
-  keywords: [
-    "Firman Aprilian Sugiharto",
-    "Backend Developer",
-    "Backend Engineer",
-    "Go Developer",
-    "REST API",
+  description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name }],
+  creator: site.name,
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#f5f6f2",
+};
+
+// Runs before first paint so a saved dark preference never flashes light.
+const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}`;
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  jobTitle: site.role,
+  url: site.url,
+  sameAs: [site.github, site.jobstreet],
+  knowsAbout: [
+    "Go",
+    "TypeScript",
     "PostgreSQL",
     "MySQL",
-    "Docker",
+    "REST APIs",
     "WebSocket",
-    "GORM",
+    "Docker",
   ],
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: siteUrl,
-    title: "Firman Aprilian Sugiharto — Backend Developer",
-    description:
-      "Backend Developer building reliable APIs and backend systems with Go.",
-    siteName: "Firman Aprilian Sugiharto Portfolio",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Firman Aprilian Sugiharto — Backend Developer",
-    description:
-      "Backend Developer building reliable APIs and backend systems with Go.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
 
 export default function RootLayout({
@@ -73,19 +67,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${jetBrainsMono.variable} antialiased`}
-      >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-primary"
-        >
+    <html
+      lang="en"
+      data-theme="light"
+      suppressHydrationWarning
+      className={`${archivo.variable} ${jetBrainsMono.variable}`}
+    >
+      <body className="bg-paper font-sans text-ink antialiased">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+
+        <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
 
         <Navbar />
-        <div id="main-content">{children}</div>
+        <main id="main-content">{children}</main>
+        <Footer />
+
         <Analytics />
         <SpeedInsights />
       </body>

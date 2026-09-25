@@ -1,69 +1,61 @@
-import Link from "next/link";
 import Container from "@/components/layout/Container";
-import { githubUrl } from "@/config/navigation";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import { site } from "@/config/site";
 
-const primaryTechnologies = [
-    "Go",
-    "REST API",
-    "PostgreSQL",
-    "MySQL",
-    "Docker",
-];
+const facts = [
+  {
+    label: "Stack",
+    value: "Go, TypeScript, PostgreSQL, MySQL, WebSocket, Docker",
+  },
+  { label: "Focus", value: "APIs, databases, realtime updates" },
+] as const;
 
 export default function Hero() {
-    return (
-        <section className="flex min-h-[calc(100vh-64px)] items-center border-b border-border md:min-h-[calc(100vh-72px)]">
-            <Container className="py-20 md:py-24 lg:py-30">
-                <div className="max-w-[820px]">
-                    <p className="mb-6 font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
-                        Backend Developer
-                    </p>
+  return (
+    <section
+      aria-labelledby="hero-heading"
+      className="pt-14 pb-14 md:pt-20 md:pb-20 lg:pt-28 lg:pb-24"
+    >
+      <Container>
+        <h1
+          id="hero-heading"
+          className="text-display leading-[0.9] font-bold tracking-[-0.045em] [font-stretch:108%]"
+        >
+          <span className="block">Firman Aprilian</span>
+          <span className="block">Sugiharto</span>
+        </h1>
 
-                    <h1 className="max-w-[800px] text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[64px]">
-                        Building reliable backend systems with Go.
-                    </h1>
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-x-10">
+          <p className="max-w-[24ch] text-lead leading-[1.22] font-medium lg:col-span-7">
+            Backend developer building APIs and realtime services with Go and
+            TypeScript.
+          </p>
 
-                    <p className="mt-7 max-w-[720px] text-lg leading-[1.7] text-foreground-secondary sm:text-xl">
-                        I build reliable backend systems with Go, focusing on well-structured
-                        APIs, database-driven business logic, authentication, realtime
-                        communication, and maintainable architecture.
-                    </p>
-
-                    <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                        <Link
-                            href="#projects"
-                            className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                        >
-                            View Projects
-                        </Link>
-
-                        <Link
-                            href={githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-6 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                        >
-                            GitHub ↗
-                        </Link>
-                    </div>
-
-                    <div className="mt-12 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-border pt-6">
-                        {primaryTechnologies.map((technology, index) => (
-                            <div key={technology} className="flex items-center gap-5">
-                                <span className="font-mono text-sm text-foreground-muted">
-                                    {technology}
-                                </span>
-
-                                {index < primaryTechnologies.length - 1 && (
-                                    <span aria-hidden="true" className="text-border">
-                                        ·
-                                    </span>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+          <div className="lg:col-span-5">
+            <dl className="divide-y divide-rule border-y border-rule text-[15px]">
+              {facts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="grid grid-cols-[5rem_1fr] gap-4 py-3"
+                >
+                  <dt className="text-ink-3">{fact.label}</dt>
+                  <dd>{fact.value}</dd>
                 </div>
-            </Container>
-        </section>
-    );
+              ))}
+            </dl>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href="#work">See work</Button>
+              <Button href={`mailto:${site.email}`} variant="outline">
+                Email me
+              </Button>
+            </div>
+
+            <Badge className="mt-6">Open to backend roles</Badge>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
 }

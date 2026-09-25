@@ -1,427 +1,324 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+import HeartbeatStrip from "@/components/heartbeat/HeartbeatStrip";
+import Container from "@/components/layout/Container";
+import ArchitectureTrace from "@/components/projects/ArchitectureTrace";
+import CaseStudyToc from "@/components/projects/CaseStudyToc";
 import ProjectScreenshot from "@/components/projects/ProjectScreenshot";
-import ProjectTags from "@/components/projects/ProjectTags";
-import { getProjectBySlug, projects } from "@/data/projects";
-import ProjectArchitecture from "@/components/projects/ProjectArchitecture";
-import ProjectMonitoringFlow from "@/components/projects/ProjectMonitoringFlow";
 import ProjectStateTransitions from "@/components/projects/ProjectStateTransitions";
+import RequestLog from "@/components/projects/RequestLog";
+import Button from "@/components/ui/Button";
+import IconLink from "@/components/ui/IconLink";
+import InlineList from "@/components/ui/InlineList";
+import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
+import { getProjectBySlug, projects } from "@/data/projects";
+import { pageMetadata } from "@/lib/metadata";
 
 type ProjectPageProps = {
-    params: Promise<{
-        slug: string;
-    }>;
+  params: Promise<{
+    slug: string;
+  }>;
 };
 
+const sectionClass =
+  "scroll-mt-24 border-t border-rule py-12 first:border-t-0 first:pt-0 md:py-14";
+const headingClass = "text-2xl font-semibold tracking-[-0.02em] md:text-3xl";
+const subheadingClass = "text-sm font-medium text-ink-3";
+
 export function generateStaticParams() {
-    return projects.map((project) => ({
-        slug: project.slug,
-    }));
+  return projects.map((project) => ({
+    slug: project.slug,
+  }));
 }
 
-export async function generateMetadata({
-    params,
-}: ProjectPageProps) {
-    const { slug } = await params;
-    const project = getProjectBySlug(slug);
+export async function generateMetadata({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
-    if (!project) {
-        return {
-            title: "Project Not Found",
-        };
-    }
+  if (!project) {
+    return { title: "Project not found" };
+  }
 
-    return {
-        title: project.title,
-        description: project.description,
-    };
+  return pageMetadata({
+    title: project.title,
+    description: project.tagline,
+    path: `/projects/${project.slug}`,
+  });
 }
 
-export default async function ProjectPage({
-    params,
-}: ProjectPageProps) {
-    const { slug } = await params;
-    const project = getProjectBySlug(slug);
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
-    if (!project) {
-        notFound();
-    }
+  if (!project) {
+    notFound();
+  }
 
-    return (
-        <main>
-            {/* Hero */}
-            <section className="border-b border-border bg-background">
-                <div className="mx-auto max-w-[1200px] px-5 py-20 md:px-8 md:py-28 lg:px-10 lg:py-32">
-                    <div className="max-w-[900px]">
-                        <Link
-                            href="/#projects"
-                            className="inline-flex items-center font-mono text-xs font-medium tracking-[0.08em] text-foreground-muted uppercase transition-colors duration-200 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                        >
-                            ← Back to Projects
-                        </Link>
+  const nextProject = projects[(projects.indexOf(project) + 1) % projects.length];
 
-                        <p className="mt-12 font-mono text-sm font-medium tracking-[0.08em] text-primary uppercase">
-                            {project.category}
-                        </p>
+  // The first screenshot (or the request log) opens the page; the rest go to "Screens".
+  const galleryScreens = project.requests
+    ? project.screenshots
+    : project.screenshots.slice(1);
+  const collapseGallery = galleryScreens.length > 3;
+  const hasHowItWorks = Boolean(
+    project.monitoringFlow || project.stateTransitions,
+  );
 
-                        <h1 className="mt-4 text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[64px]">
-                            {project.title}
-                        </h1>
+  const toc = [
+    { id: "overview", label: "Overview" },
+    { id: "approach", label: "Problem and approach" },
+    { id: "architecture", label: "Architecture" },
+    ...(hasHowItWorks ? [{ id: "how-it-works", label: "How it works" }] : []),
+    ...(project.implementation
+      ? [{ id: "implementation", label: "Implementation" }]
+      : []),
+    ...(galleryScreens.length > 0 ? [{ id: "screens", label: "Screens" }] : []),
+    { id: "notes", label: "Notes" },
+  ];
 
-                        <p className="mt-7 max-w-[800px] text-lg leading-[1.7] text-foreground-secondary sm:text-xl">
-                            {project.tagline}
-                        </p>
+  const repoPath = project.github.replace("https://github.com/", "");
 
-                        <div className="mt-8 flex flex-wrap items-center gap-3">
-                            <Link
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-6 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                            >
-                                GitHub ↗
-                            </Link>
+  return (
+    <>
+      <Container className="pt-6 pb-12 md:pt-10 md:pb-16">
+        <Link
+          href="/#work"
+          className="link inline-flex min-h-11 items-center gap-2 text-sm text-ink-2"
+        >
+          <ArrowLeftIcon className="size-4" />
+          Work
+        </Link>
 
-                            {project.demo && (
-                                <Link
-                                    href={project.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                                >
-                                    Live Demo ↗
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                </div>
+        <h1 className="mt-8 max-w-[18ch] text-title leading-[1] font-bold tracking-[-0.035em] [font-stretch:108%]">
+          {project.title}
+        </h1>
+
+        <p className="mt-6 max-w-[40ch] text-lead leading-[1.25] font-medium">
+          {project.tagline}
+        </p>
+
+        <dl className="mt-10 grid items-baseline gap-x-10 gap-y-3 border-y border-ink py-6 text-[15px] sm:grid-cols-[7rem_1fr]">
+          <dt className="text-ink-3">Category</dt>
+          <dd>{project.category}</dd>
+          <dt className="text-ink-3">Stack</dt>
+          <dd>
+            <InlineList
+              items={project.technologies}
+              className="font-mono text-[13px] leading-relaxed"
+            />
+          </dd>
+          <dt className="text-ink-3">Source</dt>
+          <dd>
+            <IconLink
+              href={project.github}
+              external
+              compact
+              className="font-mono text-[13px]"
+            >
+              {repoPath}
+            </IconLink>
+          </dd>
+        </dl>
+      </Container>
+
+      {(project.requests || project.screenshots[0]) && (
+        <Container className="pb-12 md:pb-16">
+          {project.requests ? (
+            <RequestLog
+              requests={project.requests}
+              caption="Real requests against the local API. The last one is rejected because the disbursement was already processed."
+            />
+          ) : (
+            <ProjectScreenshot
+              screenshot={project.screenshots[0]}
+              priority
+              sizes="(min-width: 1280px) 1120px, 100vw"
+            />
+          )}
+        </Container>
+      )}
+
+      <Container className="pb-16 md:pb-24">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-x-10">
+          <aside className="hidden lg:col-span-3 lg:block">
+            <div className="sticky top-24">
+              <CaseStudyToc items={toc} />
+            </div>
+          </aside>
+
+          <div className="lg:col-span-9">
+            <section id="overview" className={sectionClass}>
+              <h2 className={headingClass}>Overview</h2>
+              <p className="mt-5 max-w-[62ch] text-xl leading-relaxed">
+                {project.description}
+              </p>
+
+              <h3 className={`mt-10 ${subheadingClass}`}>At a glance</h3>
+              <ul className="mt-3 grid gap-x-10 border-t border-rule sm:grid-cols-2">
+                {project.technicalHighlights.map((highlight) => (
+                  <li
+                    key={highlight}
+                    className="border-b border-rule py-2.5 text-[15px] text-ink-2"
+                  >
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
             </section>
 
-            {/* Overview */}
-            <section className="bg-background">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-20">
-                        <div>
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                Overview
-                            </p>
-                        </div>
-
-                        <div className="max-w-[820px]">
-                            <p className="text-lg leading-[1.8] text-justify text-foreground-secondary md:text-xl">
-                                {project.description}
-                            </p>
-                        </div>
-                    </div>
+            <section id="approach" className={sectionClass}>
+              <h2 className={headingClass}>Problem and approach</h2>
+              <div className="mt-6 grid gap-8 md:grid-cols-2 md:gap-10">
+                <div>
+                  <h3 className={subheadingClass}>Problem</h3>
+                  <p className="mt-3 text-ink-2">{project.problem}</p>
                 </div>
+                <div>
+                  <h3 className={subheadingClass}>Approach</h3>
+                  <p className="mt-3 text-ink-2">{project.solution}</p>
+                </div>
+              </div>
             </section>
 
-            {/* Problem & Solution */}
-            <section className="border-y border-border bg-background-soft">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
-                        <div>
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                The Problem
-                            </p>
-
-                            <p className="mt-5 text-base leading-[1.8] text-justify text-foreground-secondary md:text-lg">
-                                {project.problem}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                The Solution
-                            </p>
-
-                            <p className="mt-5 text-base leading-[1.8] text-justify text-foreground-secondary md:text-lg">
-                                {project.solution}
-                            </p>
-                        </div>
-                    </div>
+            <section id="architecture" className={sectionClass}>
+              <h2 className={headingClass}>Architecture</h2>
+              <p className="mt-5 max-w-[62ch] text-ink-2">
+                {project.architecture}
+              </p>
+              {project.architectureFlow && (
+                <div className="mt-10">
+                  <ArchitectureTrace steps={project.architectureFlow} />
                 </div>
+              )}
             </section>
 
-            {/* Key Features */}
-            <section className="bg-background">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="max-w-[760px]">
-                        <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                            Key Features
-                        </p>
+            {hasHowItWorks && (
+              <section id="how-it-works" className={sectionClass}>
+                <h2 className={headingClass}>How it works</h2>
 
-                        <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                            What the system provides.
-                        </h2>
+                {project.monitoringFlow && (
+                  <>
+                    <div className="mt-8 bg-band p-6 text-on-band md:p-8">
+                      <HeartbeatStrip rows={1} />
                     </div>
 
-                    <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                        {project.features.map((feature) => (
-                            <li
-                                key={feature}
-                                className="rounded-xl border border-border bg-surface p-5 text-sm leading-[1.6] text-foreground-secondary"
-                            >
-                                {feature}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
+                    <ol className="mt-8 max-w-[62ch] list-decimal space-y-2.5 pl-6 text-ink-2 marker:font-mono marker:text-ink-3">
+                      {project.monitoringFlow.map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ol>
+                  </>
+                )}
 
-            {/* Technical Highlights */}
-            <section className="bg-background">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="max-w-[760px]">
-                        <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                            Technical Highlights
-                        </p>
-
-                        <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                            Engineering details that matter.
-                        </h2>
+                {project.stateTransitions && (
+                  <>
+                    <p className="mt-5 max-w-[62ch] text-ink-2">
+                      A disbursement is not an open-ended CRUD record. Each
+                      state change is checked against its current status and
+                      the role of the user making the request.
+                    </p>
+                    <div className="mt-8">
+                      <ProjectStateTransitions
+                        transitions={project.stateTransitions}
+                      />
                     </div>
-
-                    <ul className="mt-12 grid gap-x-12 gap-y-5 md:grid-cols-2">
-                        {project.technicalHighlights.map((highlight) => (
-                            <li
-                                key={highlight}
-                                className="flex gap-4 border-b border-border pb-5 text-base leading-[1.6] text-foreground-secondary"
-                            >
-                                <span
-                                    aria-hidden="true"
-                                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
-                                />
-                                <span>{highlight}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
-
-            {/* Architecture */}
-            <section className="border-y border-border bg-background-soft">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="max-w-[760px]">
-                        <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                            System Architecture
-                        </p>
-
-                        <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                            How the system works.
-                        </h2>
-
-                        <p className="mt-5 text-base leading-[1.8] text-justify text-foreground-secondary md:text-lg">
-                            {project.architecture}
-                        </p>
-                    </div>
-
-                    {project.architectureFlow && (
-                        <ProjectArchitecture steps={project.architectureFlow} />
-                    )}
-                </div>
-            </section>
-
-            {/* Monitoring Flow */}
-            {project.monitoringFlow && (
-                <section className="bg-background">
-                    <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                        <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-20">
-                            <div>
-                                <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                    Monitoring Flow
-                                </p>
-                            </div>
-
-                            <div className="max-w-[820px]">
-                                <h2 className="text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                                    From heartbeat to realtime status.
-                                </h2>
-
-                                <ProjectMonitoringFlow steps={project.monitoringFlow} />
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                  </>
+                )}
+              </section>
             )}
 
-            {/* Implementation */}
             {project.implementation && (
-                <section className="border-y border-border bg-background-soft">
-                    <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                        <div className="max-w-[760px]">
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                Technical Implementation
-                            </p>
-
-                            <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                                Engineering behind the system.
-                            </h2>
-                        </div>
-
-                        <div className="mt-12 grid gap-5 md:grid-cols-2">
-                            {project.implementation.map((item) => (
-                                <article
-                                    key={item.title}
-                                    className="rounded-xl border border-border bg-surface p-6 md:p-7"
-                                >
-                                    <h3 className="text-lg font-semibold text-foreground">
-                                        {item.title}
-                                    </h3>
-
-                                    <p className="mt-3 text-sm leading-[1.7] text-justify text-foreground-secondary md:text-base">
-                                        {item.description}
-                                    </p>
-                                </article>
-                            ))}
-                        </div>
+              <section id="implementation" className={sectionClass}>
+                <h2 className={headingClass}>Implementation</h2>
+                <dl className="mt-8 border-t border-ink">
+                  {project.implementation.map((item) => (
+                    <div
+                      key={item.title}
+                      className="grid gap-2 border-b border-rule py-5 md:grid-cols-[14rem_1fr] md:gap-10"
+                    >
+                      <dt className="font-semibold">{item.title}</dt>
+                      <dd className="max-w-[62ch] text-ink-2">
+                        {item.description}
+                      </dd>
                     </div>
-                </section>
+                  ))}
+                </dl>
+              </section>
             )}
 
-            {/* Project Transtition */}
-            {project.stateTransitions && (
-                <section className="bg-background">
-                    <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                        <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-20">
-                            <div>
-                                <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                    Business Workflow
-                                </p>
-                            </div>
+            {galleryScreens.length > 0 && (
+              <section id="screens" className={sectionClass}>
+                <h2 className={headingClass}>Screens</h2>
 
-                            <div className="max-w-[820px]">
-                                <h2 className="text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                                    Controlled disbursement state transitions.
-                                </h2>
-
-                                <p className="mt-5 text-base leading-[1.8] text-justify text-foreground-secondary md:text-lg">
-                                    Disbursement records are not treated as unrestricted CRUD resources.
-                                    Each state-changing operation is validated against the current
-                                    status and the permissions of the requesting user.
-                                </p>
-
-                                <ProjectStateTransitions
-                                    transitions={project.stateTransitions}
-                                />
-                            </div>
-                        </div>
+                {collapseGallery ? (
+                  <details className="group mt-8 border-y border-ink">
+                    <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 font-medium [&::-webkit-details-marker]:hidden">
+                      <span>Postman captures ({galleryScreens.length})</span>
+                      <ArrowRightIcon className="size-4 transition-transform duration-150 group-open:rotate-90" />
+                    </summary>
+                    <div className="space-y-10 pt-4 pb-8">
+                      {galleryScreens.map((screenshot) => (
+                        <ProjectScreenshot
+                          key={screenshot.src}
+                          screenshot={screenshot}
+                        />
+                      ))}
                     </div>
-                </section>
+                  </details>
+                ) : (
+                  <div className="mt-8 space-y-10">
+                    {galleryScreens.map((screenshot) => (
+                      <ProjectScreenshot
+                        key={screenshot.src}
+                        screenshot={screenshot}
+                      />
+                    ))}
+                  </div>
+                )}
+              </section>
             )}
 
-            {/* Challenges */}
-            <section className="border-y border-border bg-background-soft">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-20">
-                        <div>
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                Challenges
-                            </p>
-                        </div>
+            <section id="notes" className={sectionClass}>
+              <h2 className={headingClass}>Notes</h2>
 
-                        <div className="max-w-[820px]">
-                            <ul className="space-y-5">
-                                {project.challenges.map((challenge, index) => (
-                                    <li
-                                        key={challenge}
-                                        className="flex gap-5 border-b border-border pb-5"
-                                    >
-                                        <span className="font-mono text-xs text-foreground-muted">
-                                            {String(index + 1).padStart(2, "0")}
-                                        </span>
+              <h3 className={`mt-8 ${subheadingClass}`}>Challenges</h3>
+              <ul className="mt-3 max-w-[62ch] list-disc space-y-2 pl-5 text-ink-2 marker:text-ink-3">
+                {project.challenges.map((challenge) => (
+                  <li key={challenge}>{challenge}</li>
+                ))}
+              </ul>
 
-                                        <span className="text-base leading-[1.7] text-justify text-foreground-secondary md:text-lg">
-                                            {challenge}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+              <h3 className={`mt-10 ${subheadingClass}`}>Status</h3>
+              <p className="mt-3 max-w-[62ch] text-ink-2">{project.result}</p>
+
+              <div className="mt-8">
+                <Button href={project.github} external>
+                  View on GitHub
+                </Button>
+              </div>
             </section>
+          </div>
+        </div>
+      </Container>
 
-            {/* Screenshots */}
-            {project.screenshots.length > 0 && (
-                <section className="bg-background">
-                    <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                        <div className="max-w-[760px]">
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                Screenshots
-                            </p>
+      <section className="border-t border-ink">
+        <Container className="flex flex-wrap items-end justify-between gap-6 py-12 md:py-16">
+          <div>
+            <p className="text-sm text-ink-3">Next project</p>
+            <Link
+              href={`/projects/${nextProject.slug}`}
+              className="link mt-2 inline-flex items-center gap-3 text-heading leading-[1.1] font-bold tracking-[-0.02em]"
+            >
+              {nextProject.title}
+              <ArrowRightIcon className="size-6 shrink-0" />
+            </Link>
+          </div>
 
-                            <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                                The system in action.
-                            </h2>
-                        </div>
-
-                        <div className="mt-12 space-y-8">
-                            {project.screenshots.map((screenshot, index) => (
-                                <ProjectScreenshot
-                                    key={screenshot.src}
-                                    screenshot={screenshot}
-                                    priority={index === 0}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* Tech Stack */}
-            <section className="border-y border-border bg-background-soft">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-20">
-                        <div>
-                            <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                                Tech Stack
-                            </p>
-                        </div>
-
-                        <div>
-                            <ProjectTags technologies={project.technologies} />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Result */}
-            <section className="bg-background">
-                <div className="mx-auto max-w-[1200px] px-5 py-[72px] md:px-8 md:py-24 lg:px-10 lg:py-[120px]">
-                    <div className="mx-auto max-w-[820px] text-center">
-                        <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-                            Result
-                        </p>
-
-                        <h2 className="mt-3 text-3xl leading-[1.15] font-bold tracking-[-0.02em] text-foreground md:text-4xl">
-                            What this project demonstrates.
-                        </h2>
-
-                        <p className="mt-6 text-base leading-[1.8] text-justify text-foreground-secondary md:text-lg">
-                            {project.result}
-                        </p>
-
-                        <div className="mt-10 flex flex-wrap justify-center gap-3">
-                            <Link
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                            >
-                                View on GitHub ↗
-                            </Link>
-
-                            <Link
-                                href="/#projects"
-                                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-6 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                            >
-                                More Projects
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    );
+          <IconLink href="/#work">All work</IconLink>
+        </Container>
+      </section>
+    </>
+  );
 }

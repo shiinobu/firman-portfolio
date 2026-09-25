@@ -1,247 +1,592 @@
 import type { Project } from "@/types/project";
 
 export const projects: readonly Project[] = [
-    {
-        slug: "device-monitoring-system",
-        title: "Device Monitoring System",
-        category: "Realtime Backend System",
-        tagline:
-            "Realtime device monitoring system built with Go, PostgreSQL, WebSocket, Docker, and Next.js.",
+  {
+    slug: "device-monitoring-system",
+    title: "Device Monitoring System",
+    category: "Realtime backend system",
+    tagline:
+      "Devices send heartbeats. A background monitor marks the silent ones OFFLINE and pushes the change to a live dashboard.",
+    description:
+      "A monitoring system that tracks device availability. Devices report in with periodic heartbeats, a background process finds the ones that went quiet, and the dashboard updates over WebSocket without a page refresh.",
+    featured: true,
+
+    technologies: [
+      "Go",
+      "Gin",
+      "PostgreSQL",
+      "WebSocket",
+      "JWT",
+      "Docker",
+      "Docker Compose",
+      "Next.js",
+      "TypeScript",
+    ],
+
+    technicalHighlights: [
+      "10s device heartbeat interval",
+      "5s background monitoring interval",
+      "30s offline detection threshold",
+      "WebSocket DEVICE_STATUS_CHANGED events",
+      "Handler → Service → Repository architecture",
+      "PostgreSQL connection pooling",
+      "Concurrent multi-device simulation",
+      "GitHub Actions CI validation",
+    ],
+
+    specs: [
+      { label: "Heartbeat", value: "every 10 s" },
+      { label: "Monitor", value: "checks every 5 s" },
+      { label: "Offline", value: "after 30 s of silence" },
+      { label: "Push", value: "WebSocket, DEVICE_STATUS_CHANGED" },
+    ],
+
+    architectureFlow: [
+      {
+        name: "Device / Simulator",
+        description: "Sends a heartbeat request every 10 seconds.",
+      },
+      {
+        name: "Go backend",
         description:
-            "A realtime device monitoring system designed to track device availability through periodic heartbeats and automatically detect ONLINE/OFFLINE status changes.",
-        featured: true,
+          "Authenticates requests, applies business logic, stores state and emits realtime events.",
+        via: "HTTP heartbeat",
+      },
+      {
+        name: "PostgreSQL",
+        description:
+          "Stores device information, heartbeat activity and monitoring state.",
+        via: "SQL",
+      },
+      {
+        name: "Background monitor",
+        description:
+          "Checks heartbeat activity every 5 seconds and finds devices past the offline threshold.",
+        via: "every 5 s",
+      },
+      {
+        name: "WebSocket",
+        description:
+          "Broadcasts status changes to connected dashboard clients.",
+        via: "DEVICE_STATUS_CHANGED",
+      },
+      {
+        name: "Next.js dashboard",
+        description:
+          "Shows the current status of each device and updates when an event arrives.",
+        via: "WebSocket",
+      },
+    ],
 
-        technologies: ["Go", "Gin", "PostgreSQL", "WebSocket", "JWT", "Docker", "Docker Compose", "Next.js", "TypeScript"],
+    monitoringFlow: [
+      "Device sends a heartbeat every 10 seconds.",
+      "The backend records the latest heartbeat activity.",
+      "A background monitor checks device activity every 5 seconds.",
+      "A device is considered offline when no heartbeat is received for more than 30 seconds.",
+      "The backend updates the device status.",
+      "A DEVICE_STATUS_CHANGED event is broadcast through WebSocket.",
+      "Connected dashboards update the device status without a page refresh.",
+    ],
 
-        features: [
-            "Heartbeat-based device monitoring",
-            "Automatic ONLINE/OFFLINE detection",
-            "Background status monitoring",
-            "WebSocket realtime communication",
-            "JWT authentication",
-            "Device CRUD",
-            "Monitoring summary",
-            "CSV report export",
-            "Browser notifications",
-            "Multi-device simulator",
-        ],
+    implementation: [
+      {
+        title: "Heartbeat processing",
+        description:
+          "Devices send heartbeat requests to the Go backend. The latest activity timestamp is stored so the monitor can tell whether a device is still active.",
+      },
+      {
+        title: "Background monitoring",
+        description:
+          "A background process compares heartbeat activity against the configured timeout and changes the device status when the threshold is exceeded.",
+      },
+      {
+        title: "Realtime broadcasting",
+        description:
+          "When a status changes, the backend broadcasts a DEVICE_STATUS_CHANGED event over WebSocket so connected dashboards update immediately.",
+      },
+      {
+        title: "Layered backend",
+        description:
+          "HTTP handlers, business services and database repositories are separate, so transport, logic and persistence stay isolated.",
+      },
+      {
+        title: "Authentication",
+        description:
+          "JWT protects backend operations, and passwords are handled with bcrypt.",
+      },
+    ],
 
-        technicalHighlights: [
-            "10s device heartbeat interval",
-            "5s background monitoring interval",
-            "30s offline detection threshold",
-            "WebSocket DEVICE_STATUS_CHANGED events",
-            "Handler → Service → Repository architecture",
-            "PostgreSQL connection pooling",
-            "Concurrent multi-device simulation",
-            "GitHub Actions CI validation",
-        ],
+    problem:
+      "Device monitoring that relies on manual refreshes or polling makes it hard to notice failures and slow to show status changes.",
+    solution:
+      "Devices report their own activity with heartbeats. A background monitor spots missing heartbeats and sets the device to OFFLINE, and WebSocket events carry the change to connected dashboards in realtime.",
+    architecture:
+      "Devices or simulators send heartbeat requests to the Go backend. The backend stores activity in PostgreSQL while a background monitor evaluates heartbeat timeouts. Status changes are then broadcast over WebSocket to the Next.js dashboard.",
 
-        architectureFlow: [
-            { name: "Device / Simulator", description: "Sends periodic heartbeat requests to report device activity." },
-            { name: "Go Backend", description: "Receives device requests and coordinates authentication, business logic, persistence, and realtime events." },
-            { name: "PostgreSQL", description: "Stores device information, heartbeat activity, and monitoring state." },
-            { name: "Background Monitor", description: "Periodically evaluates heartbeat activity and detects devices that exceed the offline threshold." },
-            { name: "WebSocket", description: "Broadcasts device status changes to connected dashboard clients in realtime." },
-            { name: "Next.js Dashboard", description: "Displays the current device status and updates the interface when realtime events are received." },
-        ],
+    challenges: [
+      "Designing reliable heartbeat timeout detection",
+      "Synchronizing background monitoring with database state",
+      "Broadcasting device status changes through WebSocket",
+      "Keeping HTTP handlers, services and repositories separate",
+      "Handling multiple simulated devices concurrently",
+    ],
 
-        monitoringFlow: [
-            "Device sends a heartbeat every 10 seconds.",
-            "The backend records the latest heartbeat activity.",
-            "A background monitor checks device activity every 5 seconds.",
-            "A device is considered offline when no heartbeat is received for more than 30 seconds.",
-            "The backend updates the device status.",
-            "A DEVICE_STATUS_CHANGED event is broadcast through WebSocket.",
-            "Connected dashboards update the device status without page refresh.",
-        ],
+    screenshots: [
+      {
+        src: "/projects/device-monitoring-system/02-realtime-online.png",
+        alt: "Device Monitoring System dashboard showing two devices online, three offline, and toast notifications for devices coming online.",
+        caption:
+          "The dashboard after two devices resume heartbeats: counters update and toasts announce DMS-003 and DMS-004 ONLINE.",
+        width: 1915,
+        height: 910,
+      },
+      {
+        src: "/projects/device-monitoring-system/03-realtime-offline.png",
+        alt: "Device Monitoring System dashboard showing all five devices offline with toast notifications.",
+        caption:
+          "The same dashboard after the devices stop reporting: all five are OFFLINE.",
+        width: 1915,
+        height: 907,
+      },
+      {
+        src: "/projects/device-monitoring-system/01-device-list.png",
+        alt: "Device Monitoring System device list with device ID, name, serial number, IP address, location, status and last-seen time.",
+        caption: "Device management with metadata, status and last-seen time.",
+        width: 1264,
+        height: 438,
+      },
+    ],
 
-        implementation: [
-            { title: "Heartbeat Processing", description: "Devices periodically send heartbeat requests to the Go backend. The latest activity timestamp is persisted so the monitoring process can determine whether a device is still active." },
-            { title: "Background Monitoring", description: "A background process periodically evaluates heartbeat activity against the configured timeout and changes device status when the heartbeat threshold is exceeded." },
-            { title: "Realtime Event Broadcasting", description: "When a device status changes, the backend broadcasts a DEVICE_STATUS_CHANGED event through WebSocket so connected dashboard clients can update immediately." },
-            { title: "Layered Backend Architecture", description: "HTTP handlers are separated from business services and database repositories, keeping transport, business logic, and persistence concerns isolated." },
-            { title: "Authentication", description: "JWT-based authentication protects backend operations while password credentials are securely handled using bcrypt." },
-        ],
+    github: "https://github.com/shiinobu/device-monitoring-system",
+    result:
+      "Runs locally with Docker Compose. A five-device simulator generates heartbeats, so the ONLINE to OFFLINE flow can be watched without real hardware.",
+  },
 
-        problem: "Traditional device monitoring often relies on manual refreshes or periodic polling, making it difficult to detect device failures and reflect status changes immediately.",
-        solution: "Implemented a heartbeat-based monitoring system where devices periodically report their activity. A background monitor detects missing heartbeats and changes the device status to OFFLINE, while WebSocket events propagate status changes to connected dashboards in realtime.",
-        architecture: "Devices or simulators send heartbeat requests to the Go backend. The backend stores device activity in PostgreSQL while a background monitoring process evaluates heartbeat timeouts. Status changes are then broadcast through WebSocket to the Next.js dashboard.",
+  {
+    slug: "disbursement-api",
+    title: "Disbursement API",
+    category: "Transactional backend API",
+    tagline:
+      "A disbursement starts as PENDING and can be approved or rejected once. Anything already processed returns 409.",
+    description:
+      "A backend API for managing fund disbursement requests, with JWT authentication, role-based authorization, status rules, pagination, search and CSV export.",
+    featured: true,
 
-        challenges: [
-            "Designing reliable heartbeat timeout detection",
-            "Synchronizing background monitoring with database state",
-            "Broadcasting device status changes through WebSocket",
-            "Maintaining clean separation between HTTP handlers, services, and repositories",
-            "Handling multiple simulated devices concurrently",
-        ],
+    technologies: ["Go", "REST API", "MySQL", "JWT", "GORM", "Docker"],
 
-        screenshots: [
-            { src: "/projects/device-monitoring-system/01-device-list.png", alt: "Device Monitoring System dashboard showing registered devices and their current status.", caption: "Device management dashboard with device metadata, status, and last-seen information.", width: 1264, height: 438 },
-            { src: "/projects/device-monitoring-system/02-realtime-online.png", alt: "Device Monitoring System dashboard showing online and offline device counts with realtime notifications.", caption: "Realtime status updates reflected in the dashboard with online-device notifications.", width: 1915, height: 910 },
-            { src: "/projects/device-monitoring-system/03-realtime-offline.png", alt: "Device Monitoring System dashboard showing devices detected as offline with realtime notifications.", caption: "Offline detection state after devices stop reporting heartbeats.", width: 1915, height: 907 },
-        ],
+    technicalHighlights: [
+      "JWT authentication",
+      "Role-based access control",
+      "PENDING → APPROVED / REJECTED workflow",
+      "Status-based deletion rules",
+      "Protected administrative operations",
+      "Pagination metadata",
+      "Search query support",
+      "CSV reporting",
+      "Layered repository/service/handler structure",
+      "MySQL persistence with GORM",
+    ],
 
-        github: "https://github.com/shiinobu/device-monitoring-system",
-        result: "The system provides realtime visibility into device availability without requiring dashboard refreshes, while demonstrating practical backend engineering across realtime communication, background processing, database persistence, authentication, and containerized deployment.",
-    },
+    specs: [
+      { label: "States", value: "PENDING → APPROVED or REJECTED" },
+      { label: "Guard", value: "409 if already processed" },
+      { label: "Auth", value: "JWT, role-based access" },
+      { label: "Lists", value: "pagination, search, CSV export" },
+    ],
 
-    {
-        slug: "disbursement-api",
-        title: "Disbursement API",
-        category: "Transactional Backend API",
-        tagline: "Business-driven disbursement API built with Go, MySQL, JWT authentication, and role-based access control.",
-        description: "A backend API for managing fund disbursement workflows with authentication, authorization, transaction status management, search, pagination, and reporting capabilities.",
-        featured: true,
-        technologies: ["Go", "REST API", "MySQL", "JWT", "GORM", "Docker"],
-        features: ["RESTful API", "JWT authentication", "Role-based authorization", "Disbursement lifecycle management", "Approval workflow", "Rejection workflow", "Status-based business rules", "Pagination", "Search and filtering", "CSV export"],
-        technicalHighlights: ["JWT authentication", "Role-based access control", "PENDING → APPROVED / REJECTED workflow", "Status-based deletion rules", "Protected administrative operations", "Pagination metadata", "Search query support", "CSV reporting", "Layered repository/service/handler structure", "MySQL persistence with GORM"],
-        architectureFlow: [
-            { name: "API Client", description: "Sends authenticated requests to the disbursement REST API." },
-            { name: "HTTP Handler", description: "Receives HTTP requests, validates input, and maps requests to application operations." },
-            { name: "Service Layer", description: "Applies business rules, authorization requirements, and disbursement state transitions." },
-            { name: "Repository", description: "Handles persistence operations against the MySQL database." },
-            { name: "MySQL", description: "Stores users, disbursement records, and transactional data." },
-        ],
-        implementation: [
-            { title: "JWT Authentication", description: "Protected API operations use JWT-based authentication to verify the identity of the requesting user before business operations are executed." },
-            { title: "Role-Based Authorization", description: "Sensitive operations are restricted according to user roles, ensuring that only authorized users can perform administrative actions." },
-            { title: "Disbursement State Management", description: "Disbursement records follow controlled status transitions such as PENDING, APPROVED, and REJECTED instead of allowing unrestricted CRUD operations." },
-            { title: "Business Rule Enforcement", description: "Operations such as approval, rejection, and deletion are validated against the current record status and user permissions before modifying persistent data." },
-            { title: "Search & Pagination", description: "List endpoints support search and pagination while returning metadata that allows clients to understand the current result set and total records." },
-            { title: "CSV Reporting", description: "Disbursement data can be exported into CSV format for reporting and operational use cases." },
-        ],
-        stateTransitions: [{ from: "PENDING", action: "Approve", to: "APPROVED" }, { from: "PENDING", action: "Reject", to: "REJECTED" }],
-        problem: "Financial or transactional workflows require more than basic CRUD operations. Different operations must follow business rules, user permissions, and controlled state transitions.",
-        solution: "Designed a REST API around the disbursement lifecycle, with JWT authentication, role-based authorization, status-based business rules, pagination, search, and reporting endpoints.",
-        architecture: "HTTP requests are handled by the API layer and passed through business services before interacting with the MySQL persistence layer through repositories. Authentication and authorization middleware protect operations according to user roles and business rules.",
-        challenges: ["Implementing controlled disbursement state transitions", "Enforcing role-based permissions on sensitive operations", "Preventing invalid operations based on the current record status", "Designing consistent paginated API responses", "Supporting search and CSV reporting alongside transactional operations"],
+    requests: [
+      {
+        method: "POST",
+        path: "/api/auth/login",
+        status: 200,
+        statusText: "OK",
+        note: "Returns a JWT and the user with role: admin.",
+      },
+      {
+        method: "POST",
+        path: "/api/disbursements",
+        status: 201,
+        statusText: "Created",
+        note: 'status: "PENDING", admin_fee: 2500 for an amount of 1500000.',
+      },
+      {
+        method: "PATCH",
+        path: "/api/disbursements/1/status",
+        status: 200,
+        statusText: "OK",
+        note: 'Body { "status": "APPROVED" }. Response has status: "APPROVED" and processed_by.',
+      },
+      {
+        method: "PATCH",
+        path: "/api/disbursements/1/status",
+        status: 409,
+        statusText: "Conflict",
+        note: 'Body { "status": "REJECTED" } on the same record. Error: "hanya disbursement pending yang dapat diproses" (only pending disbursements can be processed).',
+      },
+    ],
 
-        screenshots: [
-            {
-                src: "/projects/disbursement-api/01-login-auth.png",
-                alt: "Postman login request returning a JWT token for the Disbursement API.",
-                caption: "JWT authentication returning an authenticated admin user and access token.",
-                width: 1100,
-                height: 653,
-            },
-            {
-                src: "/projects/disbursement-api/02-create-disbursement.png",
-                alt: "Postman create disbursement request returning a PENDING disbursement.",
-                caption: "Creating a disbursement and initializing its lifecycle with PENDING status.",
-                width: 1100,
-                height: 652,
-            },
-            {
-                src: "/projects/disbursement-api/03-disbursement-list.png",
-                alt: "Postman disbursement list endpoint showing paginated results.",
-                caption: "Paginated disbursement listing with response metadata.",
-                width: 1100,
-                height: 651,
-            },
-            {
-                src: "/projects/disbursement-api/04-approval.png",
-                alt: "Postman approval request changing a pending disbursement to APPROVED.",
-                caption: "Authorized approval workflow transitioning PENDING to APPROVED.",
-                width: 1100,
-                height: 654,
-            },
-            {
-                src: "/projects/disbursement-api/05-rejection.png",
-                alt: "Postman rejection request changing a pending disbursement to REJECTED.",
-                caption: "Rejection workflow with a recorded rejection reason.",
-                width: 1100,
-                height: 649,
-            },
-            {
-                src: "/projects/disbursement-api/06-business-rule-409.png",
-                alt: "Postman response returning 409 Conflict when processing an already processed disbursement.",
-                caption: "Business-rule enforcement preventing an already processed disbursement from being processed again.",
-                width: 1100,
-                height: 331,
-            },
-        ],
+    architectureFlow: [
+      {
+        name: "API client",
+        description: "Sends authenticated requests to the disbursement REST API.",
+      },
+      {
+        name: "HTTP handler",
+        description:
+          "Receives requests, validates input and maps them to application operations.",
+        via: "HTTP + JWT",
+      },
+      {
+        name: "Service layer",
+        description:
+          "Applies business rules, authorization requirements and status transitions.",
+      },
+      {
+        name: "Repository",
+        description: "Handles persistence against the database.",
+      },
+      {
+        name: "MySQL",
+        description: "Stores users, disbursement records and transaction data.",
+        via: "GORM",
+      },
+    ],
 
-        github: "https://github.com/shiinobu/disbursement-api",
-        result: "The API demonstrates how business rules, authorization, transaction states, pagination, search, and reporting can be organized into a maintainable Go backend architecture.",
-    },
+    implementation: [
+      {
+        title: "JWT authentication",
+        description:
+          "Protected operations verify the identity of the requesting user before any business logic runs.",
+      },
+      {
+        title: "Role-based authorization",
+        description:
+          "Sensitive operations are limited by user role, so only authorized users can perform administrative actions.",
+      },
+      {
+        title: "Status management",
+        description:
+          "A disbursement moves through PENDING, APPROVED and REJECTED with controlled transitions instead of open-ended CRUD.",
+      },
+      {
+        title: "Business rules",
+        description:
+          "Approval, rejection and deletion are checked against the current record status and the user's permissions before anything is written.",
+      },
+      {
+        title: "Search and pagination",
+        description:
+          "List endpoints support search and pagination and return metadata about the current page and total records.",
+      },
+      {
+        title: "CSV reporting",
+        description:
+          "Disbursement data can be exported as CSV for reporting.",
+      },
+    ],
 
-    {
-        slug: "manufacture-system-api",
-        title: "Manufacture System API",
-        category: "Business Management API",
-        tagline: "Go REST API for managing manufacturing data and purchase workflows with JWT authentication and MySQL.",
-        description: "A Go-based REST API for managing core manufacturing data across users, customers, suppliers, products, and purchase transactions.",
-        featured: false,
-        technologies: ["Go", "Gorilla Mux", "JWT", "MySQL", "GitHub Actions"],
-        features: ["RESTful API", "JWT authentication", "Protected routes", "User management", "Customer management", "Supplier management", "Product management", "Purchase management"],
-        technicalHighlights: ["JWT authentication", "Protected API routes", "Multi-domain business entities", "User, customer, supplier, and product management", "Purchase transaction management", "MySQL persistence", "Environment-based configuration", "Centralized response helpers", "Automated testing", "GitHub Actions CI", "go test validation", "go vet validation"],
-        architectureFlow: [
-            { name: "API Client", description: "Sends requests to the manufacturing REST API for authentication and business operations." },
-            { name: "Gorilla Mux", description: "Routes HTTP requests to the appropriate controller based on the requested resource." },
-            { name: "Controller", description: "Handles HTTP requests and coordinates operations for users, customers, suppliers, products, and purchases." },
-            { name: "MySQL", description: "Persists manufacturing entities and purchase transaction data." },
-        ],
-        implementation: [
-            { title: "JWT Authentication", description: "Authentication protects the API and provides a mechanism for identifying authenticated users." },
-            { title: "Multi-domain API", description: "The backend manages several related manufacturing domains including users, customers, suppliers, products, and purchases." },
-            { title: "Structured Controllers", description: "Domain-specific controllers organize HTTP operations around individual business resources." },
-            { title: "MySQL Persistence", description: "Manufacturing and purchase data are persisted in MySQL for structured relational data management." },
-            { title: "Environment Configuration", description: "Application configuration is separated from source code through environment-based configuration." },
-            { title: "Automated CI Validation", description: "GitHub Actions validates the backend using automated tests and Go static analysis." },
-        ],
-        problem: "Manufacturing workflows involve multiple related business entities that need to be managed consistently through a single backend system.",
-        solution: "Built a Go REST API that separates manufacturing domains into structured controllers and models while providing authentication, database persistence, and automated CI validation.",
-        architecture: "The API uses HTTP routing through Gorilla Mux, protected endpoints through JWT authentication, business controllers for domain operations, and MySQL persistence for manufacturing data.",
-        challenges: ["Organizing multiple related business entities within a single API", "Maintaining consistent HTTP behavior across different controllers", "Protecting API routes with JWT authentication", "Managing relational manufacturing and purchase data", "Maintaining backend quality through automated CI validation"],
-        screenshots: [],
-        github: "https://github.com/shiinobu/manufacture-system-api",
-        result: "The project demonstrates practical Go API development across multiple business domains with JWT authentication, MySQL persistence, automated testing, and CI validation.",
-    },
+    stateTransitions: [
+      { from: "PENDING", action: "Approve", to: "APPROVED" },
+      { from: "PENDING", action: "Reject", to: "REJECTED" },
+    ],
 
-    {
-        slug: "tourism-management-api",
-        title: "Tourism Management API",
-        category: "Full-Stack REST API",
-        tagline: "Laravel REST API with React frontend for managing tourism destinations and image-based content.",
-        description: "A full-stack tourism management application built with Laravel and React for managing tourism destinations through a REST API.",
-        featured: false,
-        technologies: ["PHP", "Laravel", "React", "MySQL", "Eloquent", "Sanctum", "Axios", "Bootstrap"],
-        features: ["RESTful API", "Tourism destination CRUD", "Request validation", "Image upload", "Image replacement", "API Resources", "Laravel Sanctum authentication", "React frontend"],
-        technicalHighlights: ["Laravel REST API", "CRUD tourism destination management", "Request validation", "Image upload and replacement", "API Resource transformation", "Laravel Sanctum authentication", "Eloquent ORM", "React API integration", "Axios HTTP client", "MySQL persistence"],
-        architectureFlow: [
-            { name: "React Frontend", description: "Provides the user interface for managing tourism destinations and communicates with the backend through HTTP requests." },
-            { name: "Axios", description: "Handles HTTP communication between the React frontend and Laravel REST API." },
-            { name: "Laravel API", description: "Provides authentication, request validation, CRUD operations, API Resources, and image management." },
-            { name: "Eloquent", description: "Handles relational data access between the Laravel application and MySQL." },
-            { name: "MySQL", description: "Persists tourism destination and application data." },
-        ],
-        implementation: [
-            { title: "Laravel REST API", description: "The backend exposes REST endpoints for managing tourism destination data and related operations." },
-            { title: "Request Validation", description: "Incoming requests are validated before application data is created or updated." },
-            { title: "Image Management", description: "The application supports tourism destination image upload and replacement workflows." },
-            { title: "API Resources", description: "Laravel API Resources provide a structured representation of backend data returned to clients." },
-            { title: "Authentication", description: "Laravel Sanctum is used to protect authenticated API operations." },
-            { title: "React API Integration", description: "The React frontend consumes the Laravel REST API through Axios and provides the management interface." },
-        ],
-        problem: "Tourism content requires both structured destination management and image-based content handling through an accessible web interface.",
-        solution: "Built a Laravel REST API with validation, authentication, image management, and API Resources, then integrated it with a React frontend for destination management.",
-        architecture: "The React frontend communicates with the Laravel REST API through Axios. Laravel handles authentication, request validation, business operations, image management, and MySQL persistence through Eloquent.",
-        challenges: ["Handling image upload and replacement workflows", "Maintaining consistent API validation and responses", "Connecting a React frontend with the Laravel REST API", "Managing authenticated API access", "Keeping frontend and backend responsibilities clearly separated"],
-        screenshots: [],
-        github: "https://github.com/shiinobu/tourism-management-api",
-        result: "The project demonstrates full-stack API integration using Laravel and React while expanding backend experience beyond Go into PHP-based application development.",
-    },
+    problem:
+      "Money movement needs more than CRUD. Each operation has to follow business rules, user permissions and controlled state transitions.",
+    solution:
+      "The API is built around the disbursement lifecycle: JWT authentication, role-based authorization, status-based rules, pagination, search and reporting endpoints.",
+    architecture:
+      "Requests pass through the API layer to business services, which reach the MySQL database through repositories. Authentication and authorization middleware protect operations by role and by record status.",
+
+    challenges: [
+      "Implementing controlled disbursement state transitions",
+      "Enforcing role-based permissions on sensitive operations",
+      "Preventing invalid operations based on the current record status",
+      "Designing consistent paginated API responses",
+      "Supporting search and CSV reporting alongside transactional operations",
+    ],
+
+    screenshots: [
+      {
+        src: "/projects/disbursement-api/01-login-auth.png",
+        alt: "Postman login request returning a JWT token for the Disbursement API.",
+        caption: "Login returns a JWT and the authenticated user.",
+        width: 1100,
+        height: 653,
+      },
+      {
+        src: "/projects/disbursement-api/02-create-disbursement.png",
+        alt: "Postman create disbursement request returning a PENDING disbursement.",
+        caption: "Creating a disbursement starts it as PENDING.",
+        width: 1100,
+        height: 652,
+      },
+      {
+        src: "/projects/disbursement-api/03-disbursement-list.png",
+        alt: "Postman disbursement list endpoint showing paginated results.",
+        caption: "Paginated listing with response metadata.",
+        width: 1100,
+        height: 651,
+      },
+      {
+        src: "/projects/disbursement-api/04-approval.png",
+        alt: "Postman approval request changing a pending disbursement to APPROVED.",
+        caption: "Approval moves PENDING to APPROVED.",
+        width: 1100,
+        height: 654,
+      },
+      {
+        src: "/projects/disbursement-api/05-rejection.png",
+        alt: "Postman rejection request changing a pending disbursement to REJECTED.",
+        caption: "Rejection records a reason.",
+        width: 1100,
+        height: 649,
+      },
+      {
+        src: "/projects/disbursement-api/06-business-rule-409.png",
+        alt: "Postman response returning 409 Conflict when processing an already processed disbursement.",
+        caption: "Processing an already processed disbursement returns 409.",
+        width: 1100,
+        height: 331,
+      },
+    ],
+
+    github: "https://github.com/shiinobu/disbursement-api",
+    result:
+      "Every state change is checked against the current status and the user's role. Responses share one shape (data, message, success), and errors carry field-level messages.",
+  },
+
+  {
+    slug: "manufacture-system-api",
+    title: "Manufacture System API",
+    category: "Business management API",
+    tagline:
+      "A Go REST API for users, customers, suppliers, products and purchases, protected with JWT.",
+    description:
+      "A Go REST API for managing core manufacturing data across users, customers, suppliers, products and purchase transactions.",
+    featured: false,
+
+    technologies: ["Go", "Gorilla Mux", "JWT", "MySQL", "GitHub Actions"],
+
+    technicalHighlights: [
+      "JWT authentication",
+      "Protected API routes",
+      "Multi-domain business entities",
+      "User, customer, supplier and product management",
+      "Purchase transaction management",
+      "MySQL persistence",
+      "Environment-based configuration",
+      "Centralized response helpers",
+      "Automated testing",
+      "GitHub Actions CI",
+      "go test validation",
+      "go vet validation",
+    ],
+
+    architectureFlow: [
+      {
+        name: "API client",
+        description:
+          "Sends requests to the API for authentication and business operations.",
+      },
+      {
+        name: "Gorilla Mux",
+        description:
+          "Routes each request to the controller for the requested resource.",
+        via: "HTTP + JWT",
+      },
+      {
+        name: "Controller",
+        description:
+          "Handles requests and coordinates operations for users, customers, suppliers, products and purchases.",
+        via: "route match",
+      },
+      {
+        name: "MySQL",
+        description: "Stores manufacturing entities and purchase data.",
+        via: "SQL",
+      },
+    ],
+
+    implementation: [
+      {
+        title: "JWT authentication",
+        description:
+          "Authentication protects the API and identifies the requesting user.",
+      },
+      {
+        title: "Several domains, one API",
+        description:
+          "The backend manages users, customers, suppliers, products and purchases.",
+      },
+      {
+        title: "Structured controllers",
+        description:
+          "Each controller owns the HTTP operations for one business resource.",
+      },
+      {
+        title: "MySQL persistence",
+        description:
+          "Manufacturing and purchase data are stored in MySQL as structured relational data.",
+      },
+      {
+        title: "Environment configuration",
+        description:
+          "Configuration lives outside the source code, in environment variables.",
+      },
+      {
+        title: "CI validation",
+        description:
+          "GitHub Actions runs the automated tests and Go static analysis.",
+      },
+    ],
+
+    problem:
+      "Manufacturing workflows involve several related business entities that have to be managed consistently in one backend.",
+    solution:
+      "A Go REST API that splits each domain into its own controller and model, with authentication, database persistence and automated CI validation.",
+    architecture:
+      "Gorilla Mux routes requests, JWT protects the endpoints, controllers handle each domain, and MySQL stores the data.",
+
+    challenges: [
+      "Organizing several related business entities in one API",
+      "Keeping HTTP behavior consistent across controllers",
+      "Protecting routes with JWT authentication",
+      "Managing relational manufacturing and purchase data",
+      "Keeping quality up with automated CI validation",
+    ],
+
+    screenshots: [],
+    github: "https://github.com/shiinobu/manufacture-system-api",
+    result:
+      "Backed by automated tests, with GitHub Actions running go test and go vet.",
+  },
+
+  {
+    slug: "tourism-management-api",
+    title: "Tourism Management API",
+    category: "Full-stack REST API",
+    tagline:
+      "A Laravel REST API with a React frontend for managing tourism destinations and their images.",
+    description:
+      "A full-stack application built with Laravel and React for managing tourism destinations through a REST API.",
+    featured: false,
+
+    technologies: [
+      "PHP",
+      "Laravel",
+      "React",
+      "MySQL",
+      "Eloquent",
+      "Sanctum",
+      "Axios",
+      "Bootstrap",
+    ],
+
+    technicalHighlights: [
+      "Laravel REST API",
+      "CRUD tourism destination management",
+      "Request validation",
+      "Image upload and replacement",
+      "API Resource transformation",
+      "Laravel Sanctum authentication",
+      "Eloquent ORM",
+      "React API integration",
+      "Axios HTTP client",
+      "MySQL persistence",
+    ],
+
+    architectureFlow: [
+      {
+        name: "React frontend",
+        description:
+          "The interface for managing destinations. It talks to the backend over HTTP.",
+      },
+      {
+        name: "Axios",
+        description:
+          "Carries HTTP requests between the React frontend and the Laravel API.",
+        via: "HTTP",
+      },
+      {
+        name: "Laravel API",
+        description:
+          "Handles authentication, request validation, CRUD operations, API Resources and image management.",
+        via: "REST",
+      },
+      {
+        name: "Eloquent",
+        description: "Relational data access between Laravel and MySQL.",
+      },
+      {
+        name: "MySQL",
+        description: "Stores destination and application data.",
+        via: "SQL",
+      },
+    ],
+
+    implementation: [
+      {
+        title: "Laravel REST API",
+        description:
+          "The backend exposes REST endpoints for managing destination data.",
+      },
+      {
+        title: "Request validation",
+        description:
+          "Incoming requests are validated before data is created or updated.",
+      },
+      {
+        title: "Image management",
+        description:
+          "Destination images can be uploaded and replaced.",
+      },
+      {
+        title: "API Resources",
+        description:
+          "Laravel API Resources give the data returned to clients a consistent shape.",
+      },
+      {
+        title: "Authentication",
+        description:
+          "Laravel Sanctum protects authenticated API operations.",
+      },
+      {
+        title: "React integration",
+        description:
+          "The React frontend consumes the Laravel API through Axios and provides the management interface.",
+      },
+    ],
+
+    problem:
+      "Tourism content needs structured destination management and image handling behind a usable web interface.",
+    solution:
+      "A Laravel REST API with validation, authentication, image management and API Resources, connected to a React frontend for managing destinations.",
+    architecture:
+      "The React frontend talks to the Laravel API through Axios. Laravel handles authentication, validation, business operations and image management, and stores data in MySQL through Eloquent.",
+
+    challenges: [
+      "Handling image upload and replacement",
+      "Keeping API validation and responses consistent",
+      "Connecting a React frontend to the Laravel API",
+      "Managing authenticated API access",
+      "Keeping frontend and backend responsibilities separate",
+    ],
+
+    screenshots: [],
+    github: "https://github.com/shiinobu/tourism-management-api",
+    result:
+      "The React frontend consumes the Laravel API through Axios, and destination images can be uploaded and replaced.",
+  },
 ];
 
 export function getProjectBySlug(slug: string) {
-    return projects.find((project) => project.slug === slug);
+  return projects.find((project) => project.slug === slug);
 }
 
 export function getFeaturedProjects() {
-    return projects.filter((project) => project.featured);
+  return projects.filter((project) => project.featured);
 }
 
 export function getSupportingProjects() {
-    return projects.filter((project) => !project.featured);
+  return projects.filter((project) => !project.featured);
 }
