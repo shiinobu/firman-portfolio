@@ -87,3 +87,5 @@ Vercel Analytics and Speed Insights are mounted in the root layout. Their script
 ## License
 
 This is a personal portfolio. Unless stated otherwise, the source code and content are not licensed for redistribution or commercial reuse.
+
+</div>
