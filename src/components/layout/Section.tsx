@@ -8,6 +8,8 @@ type SectionProps = {
   children: ReactNode;
   /** "rail" puts the label in a left column, "stacked" puts it above the content. */
   layout?: "rail" | "stacked";
+  /** Stacked layout only: a full-width element between the label and the content. */
+  bleed?: ReactNode;
   className?: string;
 };
 
@@ -28,6 +30,7 @@ export default function Section({
   label,
   children,
   layout = "rail",
+  bleed,
   className = "",
 }: SectionProps) {
   const headingId = `${id}-heading`;
@@ -39,10 +42,22 @@ export default function Section({
         aria-labelledby={headingId}
         className={`border-t border-ink ${className}`}
       >
-        <Container className="py-16 md:py-24 lg:py-28">
-          <Label id={headingId}>{label}</Label>
-          <div className="mt-10 md:mt-14">{children}</div>
-        </Container>
+        {bleed ? (
+          <>
+            <Container className="pt-16 md:pt-24 lg:pt-28">
+              <Label id={headingId}>{label}</Label>
+            </Container>
+            <div className="mt-10 md:mt-14">{bleed}</div>
+            <Container className="pt-12 pb-16 md:pt-16 md:pb-24 lg:pt-20 lg:pb-28">
+              {children}
+            </Container>
+          </>
+        ) : (
+          <Container className="py-16 md:py-24 lg:py-28">
+            <Label id={headingId}>{label}</Label>
+            <div className="mt-10 md:mt-14">{children}</div>
+          </Container>
+        )}
       </section>
     );
   }

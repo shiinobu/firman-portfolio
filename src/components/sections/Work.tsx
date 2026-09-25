@@ -1,6 +1,7 @@
 import Section from "@/components/layout/Section";
 import FeaturedProject from "@/components/projects/FeaturedProject";
 import ProjectRow from "@/components/projects/ProjectRow";
+import HeartbeatBand from "@/components/sections/HeartbeatBand";
 import { getFeaturedProjects, getSupportingProjects } from "@/data/projects";
 
 export default function Work() {
@@ -8,7 +9,12 @@ export default function Work() {
   const supporting = getSupportingProjects();
 
   return (
-    <Section id="work" label="Selected work" layout="stacked">
+    <Section
+      id="work"
+      label="Selected work"
+      layout="stacked"
+      bleed={<HeartbeatBand />}
+    >
       <div>
         {featured.map((project, index) => (
           <FeaturedProject key={project.slug} project={project} index={index} />
