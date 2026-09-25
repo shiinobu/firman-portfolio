@@ -1,7 +1,6 @@
 import Section from "@/components/layout/Section";
 
 const facts = [
-  { label: "Focus", value: "APIs, databases, realtime updates" },
   { label: "Experience", value: "3+ years in web development" },
   {
     label: "Education",
@@ -11,7 +10,6 @@ const facts = [
     ],
   },
   { label: "Speaks", value: "Indonesian, English" },
-  { label: "Status", value: "Open to fullstack engineer roles" },
 ] as const;
 
 export default function About() {
@@ -26,16 +24,10 @@ export default function About() {
           </p>
 
           <p className="text-lg text-ink-2">
-            Outside of work I build backend systems in Go: REST APIs with JWT
-            and role-based access, realtime updates over WebSocket, and
-            Docker-based setups. I also write TypeScript on the server with
-            Bun, Hono and Prisma, and on the client side with React and
-            Next.js.
-          </p>
-
-          <p className="text-lg text-ink-2">
-            I like the parts of a system that have rules: which state changes
-            are allowed, what counts as offline, who may approve what.
+            In Go I’ve built the Device Monitoring System (WebSocket,
+            PostgreSQL) and the Disbursement API (JWT, role-based access,
+            MySQL). Both use Docker. I also write TypeScript: Bun, Hono and
+            Prisma on the server, React and Next.js on the client.
           </p>
         </div>
 
