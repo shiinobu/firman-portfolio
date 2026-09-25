@@ -6,7 +6,7 @@ import { site } from "@/config/site";
 const facts = [
   {
     label: "Stack",
-    value: "Go, TypeScript, PostgreSQL, MySQL, WebSocket, Docker",
+    value: "Go, TypeScript, Next.js, PostgreSQL, MySQL, WebSocket, Docker",
   },
   { label: "Focus", value: "APIs, databases, realtime updates" },
 ] as const;
@@ -28,8 +28,7 @@ export default function Hero() {
 
         <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-x-10">
           <p className="max-w-[24ch] text-lead leading-[1.22] font-medium lg:col-span-7">
-            Backend developer building APIs and realtime services with Go and
-            TypeScript.
+            {site.tagline}
           </p>
 
           <div className="lg:col-span-5">
@@ -52,7 +51,7 @@ export default function Hero() {
               </Button>
             </div>
 
-            <Badge className="mt-6">Open to backend roles</Badge>
+            <Badge className="mt-6">Open to fullstack engineer roles</Badge>
           </div>
         </div>
       </Container>

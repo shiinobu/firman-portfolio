@@ -1,4 +1,4 @@
-# Firman Aprilian Sugiharto | Backend Developer
+# Firman Aprilian Sugiharto | Fullstack Engineer
 
 Personal portfolio: https://firman-aprilian.vercel.app
 

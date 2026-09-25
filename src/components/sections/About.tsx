@@ -11,7 +11,7 @@ const facts = [
     ],
   },
   { label: "Speaks", value: "Indonesian, English" },
-  { label: "Status", value: "Open to backend roles" },
+  { label: "Status", value: "Open to fullstack engineer roles" },
 ] as const;
 
 export default function About() {
@@ -20,7 +20,7 @@ export default function About() {
       <div className="grid gap-12 lg:grid-cols-9 lg:gap-x-10">
         <div className="space-y-6 lg:col-span-5">
           <p className="text-2xl leading-[1.25] font-medium tracking-[-0.01em] md:text-[1.75rem]">
-            I’m a backend developer. For over three years I built and
+            I’m a fullstack engineer. For over three years I built and
             maintained web applications for clients and internal teams,
             including CRM and POS systems in PHP and MySQL.
           </p>
@@ -29,7 +29,8 @@ export default function About() {
             Outside of work I build backend systems in Go: REST APIs with JWT
             and role-based access, realtime updates over WebSocket, and
             Docker-based setups. I also write TypeScript on the server with
-            Bun, Hono and Prisma.
+            Bun, Hono and Prisma, and on the client side with React and
+            Next.js.
           </p>
 
           <p className="text-lg text-ink-2">

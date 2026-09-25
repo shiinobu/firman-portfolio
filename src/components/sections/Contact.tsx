@@ -20,7 +20,7 @@ export default function Contact() {
         </h2>
 
         <p className="mt-8 max-w-[24ch] text-title leading-[1] font-bold tracking-[-0.03em]">
-          Open to backend roles.
+          Open to fullstack engineer roles.
         </p>
         <p className="mt-5 max-w-[46ch] text-lg text-on-band-2">
           Email is the fastest way to reach me.

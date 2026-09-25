@@ -53,6 +53,8 @@ const personJsonLd = {
   knowsAbout: [
     "Go",
     "TypeScript",
+    "React",
+    "Next.js",
     "PostgreSQL",
     "MySQL",
     "REST APIs",
