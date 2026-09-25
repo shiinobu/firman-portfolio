@@ -28,6 +28,7 @@ All copy lives in data files, and the pages render from them.
 | `src/data/projects.ts` | projects, case-study content, real API requests |
 | `src/data/experience.ts` | work history |
 | `src/data/skills.ts` | the stack table |
+| `assets/cv/` and `public/Firman-Aprilian-Sugiharto-CV.pdf` | the CV. Edit the HTML, print it to PDF from Chrome (A4, margins none, background graphics on) and save over the PDF |
 
 To add a project, append an entry to `projects` and put its screenshots in `public/projects/<slug>/`. The case-study page, sitemap entry and social image are generated from it.
 
@@ -48,8 +49,12 @@ To add a project, append an entry to `projects` and put its screenshots in `publ
 ## Project structure
 
 ```text
-├── assets/og/              fonts for the generated social images
-├── public/projects/        project screenshots
+├── assets/
+│   ├── cv/                 source of the CV (HTML)
+│   └── og/                 fonts for the generated social images
+├── public/
+│   ├── projects/           project screenshots and the DMS recording
+│   └── Firman-Aprilian-Sugiharto-CV.pdf   file behind the Download CV buttons
 └── src/
     ├── app/                routes, layout, design tokens, social images, robots, sitemap
     ├── components/

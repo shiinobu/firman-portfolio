@@ -1,6 +1,7 @@
 import Container from "@/components/layout/Container";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { DownloadIcon } from "@/components/ui/icons";
 import { site } from "@/config/site";
 
 const facts = [
@@ -44,10 +45,15 @@ export default function Hero() {
               ))}
             </dl>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3 *:flex-auto">
               <Button href="#work">See work</Button>
               <Button href={`mailto:${site.email}`} variant="outline">
                 Email me
+              </Button>
+              <Button href={site.cv} variant="outline" download>
+                <DownloadIcon className="size-4" />
+                Download CV
+                <span className="sr-only"> (PDF)</span>
               </Button>
             </div>
 

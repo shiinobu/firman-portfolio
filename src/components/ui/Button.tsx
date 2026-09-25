@@ -7,6 +7,8 @@ type ButtonProps = {
   variant?: "primary" | "outline";
   size?: "md" | "sm";
   external?: boolean;
+  /** Saves the file instead of navigating to it. */
+  download?: boolean;
   className?: string;
 };
 
@@ -29,11 +31,15 @@ export default function Button({
   variant = "primary",
   size = "md",
   external = false,
+  download = false,
   className = "",
 }: ButtonProps) {
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
   const isPlainAnchor =
-    external || href.startsWith("mailto:") || href.startsWith("tel:");
+    external ||
+    download ||
+    href.startsWith("mailto:") ||
+    href.startsWith("tel:");
 
   if (isPlainAnchor) {
     return (
@@ -41,6 +47,7 @@ export default function Button({
         href={href}
         className={classes}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        {...(download ? { download: true } : {})}
       >
         {children}
       </a>

@@ -6,6 +6,7 @@ export const site = {
   phone: "+6285117000255",
   github: "https://github.com/shiinobu",
   jobstreet: "https://id.jobstreet.com/id/profiles/7zxk8k1jnm",
+  cv: "/Firman-Aprilian-Sugiharto-CV.pdf",
   repo: "https://github.com/shiinobu/firman-portfolio",
   tagline:
     "Fullstack engineer building APIs and realtime services with Go and TypeScript.",

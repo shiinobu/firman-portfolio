@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Firman Aprilian Sugiharto - CV</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font: 10pt/1.3 "Times New Roman", Times, serif; color: #111827; }
+  .page { padding: 10mm 17mm 7mm; }
+  h1 { margin: 0; font-size: 22pt; line-height: 1.15; letter-spacing: 0.4pt; color: #0b1220; }
+  .title { margin: 1pt 0 4pt; font-size: 12pt; font-style: italic; color: #1a3d8f; }
+  .contact { font-size: 9.5pt; color: #334155; }
+  h2 { margin: 8pt 0 4pt; padding-bottom: 1.5pt; font-size: 10pt; letter-spacing: 1.2pt; text-transform: uppercase; color: #0b1220; border-bottom: 0.75pt solid #94a3b8; break-after: avoid; }
+  p, li, .desc { text-align: justify; }
+  p { margin: 0 0 4pt; }
+  a { color: #1a3d8f; text-decoration: underline; text-decoration-thickness: 0.5pt; text-underline-offset: 1.5pt; }
+  .skill { display: flex; margin-bottom: 1.5pt; }
+  .skill .k { flex: 0 0 34mm; font-weight: 700; }
+  .skill .v { flex: 1; }
+  .entry { margin-bottom: 6pt; break-inside: avoid; }
+  .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8pt; }
+  .role { font-weight: 700; }
+  .company { color: #334155; }
+  .dates { font-size: 9.5pt; color: #334155; white-space: nowrap; }
+  ul { margin: 3pt 0 2pt; padding-left: 15pt; }
+  li { margin-bottom: 1.5pt; }
+  .stack { font-size: 9.5pt; font-style: italic; color: #475569; }
+  .project { margin-bottom: 4pt; break-inside: avoid; }
+  .project .name { font-weight: 700; }
+  .project .tech { font-style: italic; color: #475569; }
+  .project .link { font-size: 9.5pt; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Firman Aprilian Sugiharto</h1>
+<div class="title">Fullstack Engineer</div>
+<div class="contact">
+  <a href="mailto:firman.apriliann@gmail.com">firman.apriliann@gmail.com</a> &nbsp;|&nbsp;
+  +62 851-1700-0255 &nbsp;|&nbsp;
+  <a href="https://github.com/shiinobu">github.com/shiinobu</a> &nbsp;|&nbsp;
+  <a href="https://firman-aprilian.vercel.app/">firman-aprilian.vercel.app</a>
+</div>
+
+<h2>Summary</h2>
+<p>Developer with 3.5 years of experience building and maintaining websites and web applications for clients and internal use, including CRM and POS systems, mostly in PHP and MySQL. Also builds backend projects in Go with PostgreSQL, JWT authentication, role-based access control and WebSocket, and works on the client side with React and Next.js.</p>
+
+<h2>Skills</h2>
+<div class="skill"><span class="k">Backend</span><span class="v">Go (Gin, Gorilla Mux, GORM), PHP (Laravel), TypeScript (Bun, Hono, Prisma)</span></div>
+<div class="skill"><span class="k">APIs and realtime</span><span class="v">REST, WebSocket, JWT authentication, role-based access control</span></div>
+<div class="skill"><span class="k">Databases</span><span class="v">PostgreSQL, MySQL</span></div>
+<div class="skill"><span class="k">Frontend</span><span class="v">TypeScript, React, Next.js</span></div>
+<div class="skill"><span class="k">Tooling</span><span class="v">Docker, Docker Compose, GitHub Actions, Git</span></div>
+
+<h2>Experience</h2>
+
+<div class="entry">
+  <div class="entry-head">
+    <div><span class="role">Developer</span>, <span class="company">PT. Benderaku Berkibar Selalu, Yogyakarta</span></div>
+    <div class="dates">Oct 2022 to Mar 2026</div>
+  </div>
+  <ul>
+    <li>Developed and maintained web applications for client projects and internal needs, including CRM and POS systems that supported sales, customer service and daily operations.</li>
+    <li>Implemented features, fixed bugs and handled ongoing application maintenance.</li>
+    <li>Managed and updated the MySQL databases behind the applications.</li>
+    <li>Debugged and troubleshot problems to keep the applications stable.</li>
+  </ul>
+  <div class="stack">PHP, MySQL, JavaScript, Git</div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <div><span class="role">Web Developer</span>, <span class="company">Neox Indonesia</span></div>
+    <div class="dates">2020</div>
+  </div>
+  <ul>
+    <li>Supported development and maintenance of client and internal websites.</li>
+    <li>Implemented web features and maintained application functionality in PHP, JavaScript and MySQL.</li>
+    <li>Debugged and troubleshot web applications.</li>
+  </ul>
+  <div class="stack">PHP, JavaScript, MySQL</div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <div><span class="role">Web Development Intern</span>, <span class="company">Universitas Hamzanwadi (vocational school internship)</span></div>
+    <div class="dates">2016, four months</div>
+  </div>
+  <ul>
+    <li>Supported website development and basic feature implementation.</li>
+    <li>Tested and maintained existing functionality and assisted with bug fixes.</li>
+  </ul>
+  <div class="stack">PHP, MySQL, JavaScript</div>
+</div>
+
+<h2>Projects</h2>
+
+<div class="project">
+  <div><span class="name">Device Monitoring System</span> <span class="tech">(Go, Gin, PostgreSQL, WebSocket, JWT, Docker, Next.js)</span></div>
+  <div class="desc">Realtime monitoring that tracks device availability through 10-second heartbeats, checks them every 5 seconds in the background, and marks a device OFFLINE after 30 seconds without a heartbeat.</div>
+  <div class="link"><a href="https://github.com/shiinobu/device-monitoring-system">github.com/shiinobu/device-monitoring-system</a></div>
+</div>
+<div class="project">
+  <div><span class="name">Disbursement API</span> <span class="tech">(Go, MySQL, GORM, JWT, Docker)</span></div>
+  <div class="desc">API for fund disbursement workflows with JWT authentication, role-based access control, a PENDING to APPROVED or REJECTED status flow, search, pagination and reporting.</div>
+  <div class="link"><a href="https://github.com/shiinobu/disbursement-api">github.com/shiinobu/disbursement-api</a></div>
+</div>
+<div class="project">
+  <div><span class="name">Manufacture System API</span> <span class="tech">(Go, Gorilla Mux, MySQL, JWT, GitHub Actions)</span></div>
+  <div class="desc">REST API for manufacturing data and purchase workflows.</div>
+  <div class="link"><a href="https://github.com/shiinobu/manufacture-system-api">github.com/shiinobu/manufacture-system-api</a></div>
+</div>
+<div class="project">
+  <div><span class="name">Tourism Management API</span> <span class="tech">(PHP, Laravel, React, MySQL, Sanctum)</span></div>
+  <div class="desc">Laravel REST API with a React frontend for managing tourism destinations and image content.</div>
+  <div class="link"><a href="https://github.com/shiinobu/tourism-management-api">github.com/shiinobu/tourism-management-api</a></div>
+</div>
+
+<h2>Education and Languages</h2>
+<div class="entry" style="margin-bottom:0">
+  <div class="entry-head">
+    <div><span class="role">S1 Informatika (Bachelor of Informatics)</span>, <span class="company">Universitas Teknologi Digital Indonesia, Yogyakarta</span></div>
+    <div class="dates">2017 to 2023</div>
+  </div>
+  <p>Coursework focused on native PHP, Go, JavaScript and database engineering.</p>
+  <p><b>Languages:</b> Indonesian, English</p>
+</div>
+
+</div>
+</body>
+</html>

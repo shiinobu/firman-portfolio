@@ -1,5 +1,5 @@
 import Container from "@/components/layout/Container";
-import { ArrowUpRightIcon } from "@/components/ui/icons";
+import { ArrowUpRightIcon, DownloadIcon } from "@/components/ui/icons";
 import { contactLinks } from "@/config/contact";
 import { site } from "@/config/site";
 
@@ -41,6 +41,7 @@ export default function Contact() {
                 {...(link.external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
+                {...(link.download ? { download: true } : {})}
                 className="group inline-flex min-h-11 items-center gap-2 text-lg"
               >
                 <span className="underline decoration-band-rule decoration-1 underline-offset-[0.22em] transition-colors duration-150 group-hover:decoration-on-band">
@@ -48,6 +49,9 @@ export default function Contact() {
                 </span>
                 {link.external && (
                   <ArrowUpRightIcon className="size-4 transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                )}
+                {link.download && (
+                  <DownloadIcon className="size-4 transition-transform duration-150 group-hover:translate-y-0.5" />
                 )}
               </a>
             </li>

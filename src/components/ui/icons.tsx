@@ -51,6 +51,14 @@ export function ArrowLeftIcon(props: IconProps) {
   );
 }
 
+export function DownloadIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 4v11M6 10l6 6 6-6M4 20h16" />
+    </Icon>
+  );
+}
+
 export function SunIcon(props: IconProps) {
   return (
     <Icon {...props}>
