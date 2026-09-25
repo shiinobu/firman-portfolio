@@ -7,6 +7,7 @@ import ArchitectureTrace from "@/components/projects/ArchitectureTrace";
 import CaseStudyToc from "@/components/projects/CaseStudyToc";
 import ProjectScreenshot from "@/components/projects/ProjectScreenshot";
 import ProjectStateTransitions from "@/components/projects/ProjectStateTransitions";
+import ProjectVideo from "@/components/projects/ProjectVideo";
 import RequestLog from "@/components/projects/RequestLog";
 import Button from "@/components/ui/Button";
 import IconLink from "@/components/ui/IconLink";
@@ -57,10 +58,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   const nextProject = projects[(projects.indexOf(project) + 1) % projects.length];
 
-  // The first screenshot (or the request log) opens the page; the rest go to "Screens".
-  const galleryScreens = project.requests
-    ? project.screenshots
-    : project.screenshots.slice(1);
+  // The request log, the video or the first screenshot opens the page; the rest go to "Screens".
+  const galleryScreens =
+    project.requests || project.video
+      ? project.screenshots
+      : project.screenshots.slice(1);
   const collapseGallery = galleryScreens.length > 3;
   const hasHowItWorks = Boolean(
     project.monitoringFlow || project.stateTransitions,
@@ -123,13 +125,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </dl>
       </Container>
 
-      {(project.requests || project.screenshots[0]) && (
+      {(project.requests || project.video || project.screenshots[0]) && (
         <Container className="pb-12 md:pb-16">
           {project.requests ? (
             <RequestLog
               requests={project.requests}
               caption="Real requests against the local API. The last one is rejected because the disbursement was already processed."
             />
+          ) : project.video ? (
+            <ProjectVideo video={project.video} />
           ) : (
             <ProjectScreenshot
               screenshot={project.screenshots[0]}

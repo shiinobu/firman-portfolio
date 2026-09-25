@@ -6,6 +6,22 @@ export type ProjectScreenshot = {
   height: number;
 };
 
+export type ProjectVideoSource = {
+  src: string;
+  type: string;
+};
+
+export type ProjectVideo = {
+  /** Most compatible source first. */
+  sources: readonly ProjectVideoSource[];
+  poster: string;
+  /** What happens in the clip, for people who cannot watch it. */
+  alt: string;
+  caption?: string;
+  width: number;
+  height: number;
+};
+
 export type ProjectArchitectureStep = {
   name: string;
   description: string;
@@ -65,8 +81,9 @@ export type Project = {
   challenges: readonly string[];
 
   screenshots: readonly ProjectScreenshot[];
+  /** Short screen recording. Replaces the first screenshot in the hero and on the featured card. */
+  video?: ProjectVideo;
 
-  demo?: string;
   github: string;
 
   result: string;

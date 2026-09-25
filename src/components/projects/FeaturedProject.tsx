@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import ProjectScreenshot from "@/components/projects/ProjectScreenshot";
+import ProjectVideo from "@/components/projects/ProjectVideo";
 import RequestLog from "@/components/projects/RequestLog";
 import IconLink from "@/components/ui/IconLink";
 import InlineList from "@/components/ui/InlineList";
@@ -69,6 +70,8 @@ export default function FeaturedProject({
             requests={project.requests}
             caption="Real requests against the local API. The last one is rejected because the disbursement was already processed."
           />
+        ) : project.video ? (
+          <ProjectVideo video={project.video} />
         ) : (
           <ProjectScreenshot
             screenshot={project.screenshots[0]}

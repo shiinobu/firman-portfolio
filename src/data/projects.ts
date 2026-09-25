@@ -157,6 +157,25 @@ export const projects: readonly Project[] = [
       },
     ],
 
+    video: {
+      sources: [
+        {
+          src: "/projects/device-monitoring-system/realtime-demo.mp4",
+          type: "video/mp4",
+        },
+        {
+          src: "/projects/device-monitoring-system/realtime-demo.webm",
+          type: "video/webm",
+        },
+      ],
+      poster: "/projects/device-monitoring-system/realtime-demo-poster.webp",
+      alt: "Screen recording of the dashboard. Five devices are online. The simulator stops, all five turn offline with toast notifications, then they come back online after a restart.",
+      caption:
+        "Local recording with the five-device simulator. I stop the simulator, every device goes OFFLINE once the heartbeat timeout passes, and ONLINE again when it restarts. The timeout was set to 15 s for the recording (default 30 s).",
+      width: 1280,
+      height: 800,
+    },
+
     github: "https://github.com/shiinobu/device-monitoring-system",
     result:
       "Runs locally with Docker Compose. A five-device simulator generates heartbeats, so the ONLINE to OFFLINE flow can be watched without real hardware.",
