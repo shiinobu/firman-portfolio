@@ -9,6 +9,7 @@ type ContactLink = {
 
 export const contactLinks: readonly ContactLink[] = [
   { label: "GitHub", href: site.github, external: true },
+  { label: "LinkedIn", href: site.linkedin, external: true },
   { label: "JobStreet", href: site.jobstreet, external: true },
   { label: "Download CV", href: site.cv, external: false, download: true },
   { label: "Phone", href: `tel:${site.phone}`, external: false },

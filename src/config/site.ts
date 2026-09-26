@@ -5,6 +5,7 @@ export const site = {
   email: "firman.apriliann@gmail.com",
   phone: "+6285117000255",
   github: "https://github.com/shiinobu",
+  linkedin: "https://www.linkedin.com/in/firman-aprilian-sugiharto/",
   jobstreet: "https://id.jobstreet.com/id/profiles/7zxk8k1jnm",
   cv: "/Firman-Aprilian-Sugiharto-CV.pdf",
   repo: "https://github.com/shiinobu/firman-portfolio",

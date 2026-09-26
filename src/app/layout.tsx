@@ -49,7 +49,7 @@ const personJsonLd = {
   name: site.name,
   jobTitle: site.role,
   url: site.url,
-  sameAs: [site.github, site.jobstreet],
+  sameAs: [site.github, site.linkedin, site.jobstreet],
   knowsAbout: [
     "Go",
     "TypeScript",
